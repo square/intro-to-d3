@@ -1,0 +1,8 @@
+# Site settings
+title: Intro to D3
+baseurl: ""
+url: "https://stash.corp.squareup.com/www/~margolis/intro-to-d3/gh-pages"
+
+# Build settings
+markdown: kramdown
+permalink: pretty

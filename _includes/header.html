@@ -1,0 +1,14 @@
+<h1>Intro to D3.js</h3>
+
+<ol class="nav">
+  <li>
+    <a href="/">Overview</a>
+  </li>
+  {% for page in site.pages %}
+    <li>
+      <a href="{{ page.url | prepend: site.baseurl }}">
+        {{ page.title }}
+      </a>
+    </li>
+  {% endfor %}
+</ol>
