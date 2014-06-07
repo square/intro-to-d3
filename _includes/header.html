@@ -3,7 +3,7 @@
 <ol class="nav">
   {% for p in site.pages %}
     <li {% if p.url == page.url %} class="active" {% endif %}>
-      <a href="{{ p.url | prepend: site.baseurl }}">
+      <a href="{{ p.url | prepend: site.url }}">
         {{ p.title }}
       </a>
     </li>
