@@ -1,8 +1,102 @@
+@font-face {
+  font-family: "sqmarket";
+  src: url("fonts/sqmarket-light.eot");
+  src: url("fonts/sqmarket-light.eot?#iefix") format("embedded-opentype"),url("fonts/sqmarket-light.woff") format("woff"),url("fonts/sqmarket-light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal
+}
+
+@font-face {
+  font-family: "sqmarket";
+  src: url("fonts/sqmarket-regular.eot");
+  src: url("fonts/sqmarket-regular.eot?#iefix") format("embedded-opentype"),url("fonts/sqmarket-regular.woff") format("woff"),url("fonts/sqmarket-regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal
+}
+
+@font-face {
+  font-family: "sqmarket";
+  src: url("fonts/sqmarket-medium.eot");
+  src: url("fonts/sqmarket-medium.eot?#iefix") format("embedded-opentype"),url("fonts/sqmarket-medium.woff") format("woff"),url("fonts/sqmarket-medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal
+}
+
+@font-face {
+  font-family: "sqmarket";
+  src: url("fonts/sqmarket-bold.eot");
+  src: url("fonts/sqmarket-bold.eot?#iefix") format("embedded-opentype"),url("fonts/sqmarket-bold.woff") format("woff"),url("fonts/sqmarket-bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal
+}
+
+body {
+  font-family: "sqmarket", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-weight: 100;
+  text-transform: uppercase;
+  text-align: center;
+
+  background-color: #1492D6; /* blue */
+  color: white;
+
+  padding: 12pt;
+  margin: 0;
+}
+
+h2 {
+  font-weight: 500;
+}
+
 .nav {
+  margin: 0;
+  padding: 0;
+  background-color: #72BEE6; /* slightly lighter blue */
+  text-align: center;
 }
 
 .nav li {
   display: inline-block;
   list-style: none;
-  padding: 0 12pt;
+  padding: 12pt 12pt;
+}
+
+.nav li a {
+  color: white;
+  text-decoration: none;
+}
+
+.nav li a:hover, .nav li a:focus {
+  text-decoration: underline;
+}
+
+.nav .active {
+  background-color: #B8DEF2; /* even lighter blue */
+}
+
+.post {
+  width: 400pt;
+  margin: 0 auto;
+}
+
+.giant-button {
+  text-decoration: none;
+  text-align: center;
+
+  font-size: 24pt;
+  background-color: #72BEE6; /* slightly lighter blue */
+  color: white;
+
+  display: block;
+  border-radius: 24pt;
+  margin: 0 24pt;
+  padding: 12pt 24pt;
+}
+
+.giant-button:hover, .giant-button:focus {
+  background-color: #B8DEF2; /* even lighter blue */
 }
