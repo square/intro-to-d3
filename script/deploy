@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -ex
+
 DEPLOY_BRANCH="gh-pages"
 
 jekyll build
@@ -10,7 +12,7 @@ git checkout -B gh-pages
 
 git add -f _site/
 
-git commit -m "update site from $CURRENT_SHA"
+git commit -m "[script/deploy] Generate $DEPLOY_BRANCH from $CURRENT_SHA"
 
 git push -f origin HEAD:$DEPLOY_BRANCH
 
