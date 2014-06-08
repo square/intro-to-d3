@@ -105,6 +105,11 @@ frame, iframe {
   background-color: #B8DEF2; /* even lighter blue */
 }
 
+.example-row-1 {
+  width: 300pt;
+  margin-left: 50pt; /* (400 - 300) / 2; */
+}
+
 .example-row-2 {
   width: 620pt; /* (2 * 300) + (1 * 20) */
   margin-left: -60pt; /* (400 - 620) / 2; */
@@ -133,7 +138,9 @@ frame, iframe {
   }
 }
 
-.example-row-2::after, .example-row-3::after {
+.example-row-1::after,
+.example-row-2::after,
+.example-row-3::after {
   content: '';
   clear: both;
   height: 0;
@@ -194,4 +201,11 @@ frame, iframe {
 .numeric-col {
   -webkit-font-feature-settings: "tnum" 1
   text-align: right
+}
+
+.info {
+  margin: 12pt 24pt;
+  border-radius: 6pt;
+  background-color: #ff9;
+  padding: 10pt;
 }
