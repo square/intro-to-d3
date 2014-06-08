@@ -143,6 +143,11 @@ events. D3 has some nice helper methods for working with events as well.
   </iframe>
 </div>
 
+<div class="info">
+  Note! In the D3 examples, the methods on the selection can chain
+  (that is, they return themselves, so we can group them visually).
+</div>
+
 ### SVG
 
 SVG stands for Scalable Vector Graphic. It's an XML format specifically for
