@@ -153,3 +153,45 @@ frame, iframe {
 .example pre {
   margin: 0;
 }
+
+.data-table {
+  border: 2pt solid #888;
+  border-radius: 3pt;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.data-table thead {
+  font-weight: 800;
+}
+
+.data-table th, .data-table td {
+  padding: 3pt;
+}
+
+.data-table th {
+  border-bottom: 2pt solid #888;
+  border-right: 1pt solid #888;
+}
+
+.data-table th:last-child {
+  border-right: none;
+}
+
+.data-table td {
+  border-right: 1pt solid #888;
+  border-bottom: 1pt solid #888;
+}
+
+.data-table td:last-child {
+  border-right: none;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.numeric-col {
+  -webkit-font-feature-settings: "tnum" 1
+  text-align: right
+}
