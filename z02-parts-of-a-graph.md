@@ -66,8 +66,8 @@ This graph has to be "to scale". It has to have a coordinate system!
 
 The x-axis goes from January 2014 to April 2014, and the y-axis goes from $0 to
 $80. However, the SVG is drawn in a box that's about 200 by 300 pixels. Dates
-and pixels don't must map to one another, so we have to come up with a scale to
-convert one to the other.
+and pixels don't must map to one another on their own, so we have to specify one
+somehow.
 
 <div class="info">
   Note! The y-axis flips! The SVG origin, <kbd>(0, 0)</kbd> is in the top left,
@@ -95,9 +95,9 @@ coming in, and we transform it to something visual.
 Let's make a graph the hard way! As we've seen earlier, the `<path>` tag is
 kind of complex, so we'll swap out a line graph for a scatterplot.
 
-We'll need to manually write out each point. Transform attributes nest, so we
-can use `<g>` tags to move entire groups, such as the axes, or even offset the
-entire graph by a margin.
+We'll need to manually write out each point. Transform attributes are inherited
+by child elements, so we can use `<g>` tags to move entire groups, such as the
+axes, or even offset the entire graph by a margin.
 
 <div class="example-row-2">
   <div class="example">
@@ -115,12 +115,17 @@ Man! All that work for such a simple graph? SVG is a lot of work!
 ## The D3 Way
 
 Good news! D3 has pieces to help with each of the parts of a graph we listed
-above!
+above! However, D3 does this in the spirit of "automating the hard bits you
+already understand", rather than making it all happen.
 
 ### Small Helpers
 
-There are a few operations that come up all the time. Min, max, and even both
-at the same time (extent).
+There are a few operations that come up all the time, such as finding the
+minimum and maximum values of a data set (even both at the same time, the
+"extent").
+
+In D3, our source data is always plain old Javascript objects (POJOs). Most
+often the data is homogenous arrays.
 
 <div class="example-row-1">
   <div class="example">
@@ -168,6 +173,17 @@ var y = d3.scale.linear()
   </div>
 </div>
 
+Or if we wanted to take advantage of the helper methods above:
+
+<div class="example-row-1">
+  <div class="example">
+    {% highlight javascript %}
+y.domain(d3.extent(data, function(d) { return d.amount });
+    {% endhighlight %}
+  </div>
+</div>
+
+
 The domain is in the data space, so its units are your source units. The range
 is in screen space (pixels).
 
@@ -200,6 +216,9 @@ x(new Date('2014-2-1'));
   </div>
 </div>
 
+Scales are not just for linear transforms (continuous or quantitative scales),
+they can also be used for arbitrary transforms (discrete or ordinal scales).
+We'll come across more scales later.
 
 ### Axes
 
@@ -225,38 +244,12 @@ objects, and by default, it labeled the tickets appopriately!
 
 ### Data
 
-<div class="info">
-  Heads up! This is probably the hardest part of D3 to "get". Personally, it
-  took me like 2 or 3 times to really understand what I was being told.
-</div>
+The next thing to do is take our data and transform it into something visible.
+This is data binding, and it's a big topic, so it gets its own section.
 
-Ok, so we've referenced `d3.select()` and `d3.selectAll()` a few times already
-but now, it's really time to dig in. They both return the same thing, a D3
-selection, but `d3.select()` will find one element, will `d3.selectAll` will
-match all available elements.
+<a href="{{ "/data-binding/" | prepend: site.baseurl }}" class="giant-button">
+  Next
+</a>
 
-With types, the functions might look something like
-
-```
-d3.select(String selector) -> (d3.selection)
-```
-
-D3 selections are a group of elements that match a query **or could match the
-query later**, the elements may not have been constructed yet.
-
-Selections are used to map pieces of our data to elements in the DOM -- but they
-
-
----
-
-So what does D3 actually do?
-
-axis / scales / coordinate systems (input data maps to here, x/y maps to screen)
-I have a range of 20 x 20 units, but it maps to a box of 400x500 on the screen (flipped coords, etc)
-SVG is Y-Down, most graphs are Y-UP
-units / labels (auto-generate date labels, etc)
-Dates!
-colors are just another scale!
-ZOMG color 10
 
 <script type="text/javascript" src="{{ "/javascripts/parts-of-a-graph.js" | prepend: site.baseurl }}"></script>
