@@ -13,10 +13,6 @@ it at our rows and columns, set a few colors, and boom! A graph.
 <div class="ex-1 example-row-2">
   <div class="example example-source">
     <table class="data-table">
-      <colgroup>
-        <col class="numeric-col purple-text" />
-        <col class="numeric-col green-text" />
-      </colgroup>
       <thead>
         <tr>
           <th>Date</th>
