@@ -48,6 +48,10 @@ h1 {
   margin: 0;
 }
 
+h1 .jewel {
+  margin-bottom: -2pt;
+}
+
 h2 {
   font-weight: 500;
 }
