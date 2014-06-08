@@ -15,4 +15,6 @@ bits" (hat tip [@andy_matuschak](https://twitter.com/andy_matuschak/status/36554
 This is a quick tour, not a deep-dive. The goal here is to learn how to
 learn D3, not to learn everything at once.
 
-<a href="web-standards/" class="giant-button">Let's get started!</a>
+<a href="{{ "/web-standards/" | prepend: site.baseurl }}" class="giant-button">
+  Let's get started!
+</a>

@@ -52,6 +52,10 @@ h2 {
   font-weight: 500;
 }
 
+frame, iframe {
+  border: none;
+}
+
 .nav {
   margin: 0;
   padding: 0;
@@ -87,16 +91,65 @@ h2 {
   text-decoration: none;
   text-align: center;
 
-  font-size: 24pt;
+  font-size: 16pt;
   background-color: #72BEE6; /* slightly lighter blue */
   color: white;
 
   display: block;
   border-radius: 24pt;
   margin: 0 24pt;
-  padding: 12pt 24pt;
+  padding: 6pt 12pt;
 }
 
 .giant-button:hover, .giant-button:focus {
   background-color: #B8DEF2; /* even lighter blue */
+}
+
+.example-row-2 {
+  width: 620pt; /* (2 * 300) + (1 * 20) */
+  margin-left: -60pt; /* (400 - 620) / 2; */
+}
+
+.example-row-3 {
+  width: 940pt; /* (3 * 300) + (2 * 20) */
+  margin-left: -270pt; /* (400 - 940) / 2; */
+}
+
+@media (max-width: 940pt) {
+  .example-row-3 {
+    width: 400pt;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 620pt) {
+  .post {
+    width: 100%;
+  }
+
+  .example-row-2, .example-row-3 {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+.example-row-2::after, .example-row-3::after {
+  content: '';
+  clear: both;
+  height: 0;
+  display: block;
+}
+
+.example {
+  width: 300pt;
+  float: left;
+  margin-right: 20pt;
+}
+
+.example:last-child {
+  margin-right: 0;
+}
+
+.example pre {
+  margin: 0;
 }
