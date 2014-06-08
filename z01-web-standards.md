@@ -16,7 +16,7 @@ know all the nitty-gritty details, you can pick this stuff up pretty quickly.
 ### HTML
 
 HTML (HyperText Markup Language) is a text format that most web pages are
-written in. It's loosely related to the XML family, but much less strict (for
+written in. It's loosely related to XML, but much less strict (for
 example some tags such as `<br>` don't need matching closing tags.
 
 There are a standard set of HTML tags with standard meanings, `<h1>`, `<h2>`
@@ -45,9 +45,9 @@ The basic outline of an HTML page is something like this:
 
 CSS (Cascading Stylesheets) is a language for styling web pages.
 
-Styles describe elements on a page. Styles (selectors) are usually applied by
-tag name, class or ID. Many parts of an element can be used to define
-a style--even attribute values--but we won't need to worry about that today.
+Styles (also know as selectors) describe elements on a page. Styles are usually applied to a tag name, class or ID. Many parts of an element can be used to
+define a style---even attribute values---but we won't need to worry about that
+today.
 
 Here are some simple CSS rules and how they apply.
 
