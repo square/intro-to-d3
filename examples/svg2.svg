@@ -14,6 +14,6 @@
   <g transform="translate(5, 105)">
     <!-- C: curve to (cubic)
          Z: close shape -->
-    <path d="M0,100 C0,0 25,0 125,100 Z" fill="black"></path>
+    <path d="M0,100 C0,0 25,0 125,100 Z" fill="black" />
   </g>
 </svg>

@@ -79,6 +79,8 @@ elements have children, and most HTML attributes are available as properties on 
 The standard DOM API is somewhat verbose, so many libraries like jQuery and D3
 provide some syntactic sugar, that borrows from CSS notation.
 
+Here are some examples of accessing the document structure programatically.
+
 <div class="example-row-3">
   <div class="example">
     {% highlight html %}
@@ -102,7 +104,7 @@ reds[0].innerText
 
   <div class="example">
     {% highlight javascript %}
-// D3 Select API
+// D3 Selection API
 d3.select('p').size(); // select() only finds one
 // 1
 d3.selectAll('p').size(); // selectAll() finds all
@@ -113,7 +115,32 @@ reds.text();
 // "Red paragraph"
     {% endhighlight %}
   </div>
+</div>
 
+The DOM also handles tracking elements as they are rendered, as well as events
+such as mouse movement. There are lots of events, which we can attach to to add
+various levels of interactivity to our pages.
+
+Here are some examples of using the `click`, `mouseover` and `mouseleave`
+events. D3 has some nice helper methods for working with events as well.
+
+<div class="example-row-3">
+  <div class="example">
+    {% highlight html %}
+      {% include examples/dom.html %}
+    {% endhighlight %}
+  </div>
+
+  <div class="example">
+    {% highlight javascript %}
+      {% include examples/dom.js %}
+    {% endhighlight %}
+  </div>
+
+  <iframe class="example"
+    height="180"
+    src="{{ "/examples/dom-styled/" | prepend: site.baseurl }}">
+  </iframe>
 </div>
 
 ### SVG
@@ -121,7 +148,7 @@ reds.text();
 SVG stands for Scalable Vector Graphic. It's an XML format specifically for
 drawing. Modern browsers support SVG natively, and we can think of SVG
 in a lot of the same terms as the DOM -- there are elements with parents and
-children and attributes.
+children and attributes, and we can use the same mouse/touch events!
 
 Even CSS styles can apply to SVG elements! The CSS attribute names for SVG
 come from the SVG definition, so they are sometimes different from their
