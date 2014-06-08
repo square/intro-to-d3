@@ -1,0 +1,15 @@
+p {
+  color: blue;
+}
+
+.red {
+  background: red;
+}
+
+#some-id {
+  font-style: italic;
+}
+
+li p {
+  color: #333;
+}
