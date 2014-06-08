@@ -4,14 +4,14 @@ title: Web Standards
 permalink: /web-standards/
 ---
 
-Like we mentioned, D3 takes advantage of a lot of web standards. We're going
-to give quick whirlwind tour of the relevant ones. Don't worry if you don't
-know all the nitty-gritty details, you can pick this stuff up pretty quickly.
-
 - [HTML](#html)
 - [CSS](#css)
 - [The DOM](#the-dom)
 - [SVG](#svg)
+
+Like we mentioned, D3 takes advantage of a lot of web standards. We're going
+to give quick whirlwind tour of the relevant ones. Don't worry if you don't
+know all the nitty-gritty details, you can pick this stuff up pretty quickly.
 
 ### HTML
 
