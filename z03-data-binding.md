@@ -4,6 +4,12 @@ title: Data Binding
 permalink: /data-binding/
 ---
 
+- [Selections `d3.selectAll`](#selections-d3selectall)
+- [Joins `selection.data()`](#joins-selectiondata)
+- [Adding Elements `selection.enter()`](#adding-elements-selectionenter)
+- [Removing Elements `selection.exit()`](#removing-elements-selectionexit)
+- [Transitions `selection.transition()`](#transitions-selectiontransition)
+
 <div class="info">
   Heads up! Data binding is probably the hardest part of D3 to "get".
   Personally, it took this being re-explained like 2 or 3 times to really
@@ -177,11 +183,10 @@ So how does it turn out? Let's take a look:
   style of <kbd>(d, i)</kbd> parameters to represent the element and its index.
 </div>
 
-The result of 
+## Removing Elements `selection.exit()`
 
+## Transitions `selection.transition()`
 
-
-## Transitions
 
 ---
 
