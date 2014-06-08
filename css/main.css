@@ -124,7 +124,7 @@ frame, iframe {
 
 @media (max-width: 620pt) {
   .post {
-    width: 100%;
+    width: 90%;
   }
 
   .example-row-2, .example-row-3 {
