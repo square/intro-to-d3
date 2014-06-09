@@ -7,7 +7,7 @@
     var table = d3.select(this),
         data = [];
 
-    table.selectAll('tr').each(function() {
+    table.selectAll('tbody tr').each(function() {
       var row = d3.select(this),
           product = null,
           count = null;
@@ -40,7 +40,7 @@
     .range([0, 300])
     .domain([0, maxCount]);
   var y = d3.scale.ordinal()
-    .rangeRoundBands([0, 75])
+    .rangeRoundBands([0, height])
     .domain(sales.map(function(d, i) {
       return d.product;
     }));
