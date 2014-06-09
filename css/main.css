@@ -155,6 +155,11 @@ frame, iframe {
   width: 300pt;
   float: left;
   margin-right: 20pt;
+  margin-bottom: 20pt;
+}
+
+.example .toggle {
+  display: block;
 }
 
 .example:last-child {

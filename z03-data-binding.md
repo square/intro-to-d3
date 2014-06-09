@@ -45,17 +45,16 @@ have some data:
   <div class="example">
     {% highlight javascript %}
 var sales = [
-  { date: new Date('2014-5-04'), count: 7 },
-  { date: new Date('2014-5-11'), count: 6 },
-  { date: new Date('2014-5-18'), count: 9 },
-  { date: new Date('2014-5-25'), count: 10 }
+  { product: 'Hoodie',  count: 7 },
+  { product: 'Jacket',  count: 6 },
+  { product: 'Snuggie', count: 9 },
 ];
     {% endhighlight %}
   </div>
 </div>
 
 And we want to map these to points on a scatterplot. We know we want each object
-in this array into of these to turn into `<circle>` tag, inside of our `<svg>`
+in this array into of these to turn into `<rect>` tag, inside of our `<svg>`
 below:
 
 <div class="example-row-2">
@@ -69,12 +68,11 @@ below:
 
   <div class="example">
     {% highlight html %}
-<!-- after, circles graph -->
+<!-- after, rects graph -->
 <svg>
-  <circle /><!-- { date: 2014-5-04, count: 7 } -->
-  <circle /><!-- { date: 2014-5-11, count: 6 } -->
-  <circle /><!-- { date: 2014-5-18, count: 9 } -->
-  <circle /><!-- { date: 2014-5-25, count: 10 } -->
+  <rect /><!-- { product: 'Hoodie',  count: 7 } -->
+  <rect /><!-- { product: 'Jacket',  count: 6 } -->
+  <rect /><!-- { product: 'Snuggie', count: 9 } -->
 </svg>
     {% endhighlight %}
   </div>
@@ -90,11 +88,11 @@ var svg = d3.select('svg');
 svg.size();
 // 1 -- one <svg> element exists
 
-var circles = svg.selectAll('circle')
+var rects = svg.selectAll('rect')
   .data(sales);
 
-circles.size();
-// 0 -- no <circle> elements exist yet!
+rects.size();
+// 0 -- no <rect> elements exist yet!
     {% endhighlight %}
   </div>
 </div>
@@ -105,14 +103,14 @@ Ok but now we have a selection but still no elements! We have more work to do.
 
 Again, our goal is to have a circle for each data point. We are starting with
 none and we have 4 new data points, so obviously the right thing to do is to
-add a new `<circle>` for each data point.
+add a new `<rect>` for each data point.
 
-The way D3 looks at this is a more subtle: we want to add a `<circle>`
+The way D3 looks at this is a more subtle: we want to add a `<rect>`
 per data point, *but only for the new points the last data join*. Since this
-is the first data binding (there are no circles currently), everything is new,
+is the first data binding (there are no rects currently), everything is new,
 it's straightforward to add new points. It's important to keep in mind that for
 the next selection, things will be more complex since there will already be
-circles.
+rects.
 
 The part of a D3 selection that represents these element-less data-points
 is `selection.enter()`;
@@ -120,44 +118,61 @@ is `selection.enter()`;
 <div class="example-row-1">
   <div class="example">
     {% highlight javascript %}
-var newCircles = circles.enter();
+var newRects = rects.enter();
     {% endhighlight %}
   </div>
 </div>
 
-So now `newCircles` represents these element-less data-points, so we use
+So now `newRects` represents these element-less data-points, so we use
 `append` to add new elements. The elements don't add themselves, we have to
 create the elements that will match the selection ourselves. We use the same
 attribute editing helpers to configure each circle per its data point.
 
 
-<div class="example-row-1">
+<div class="example-row-2">
   <div class="example">
     {% highlight javascript %}
 // recall that scales are functions that map from
 // data space to screen space
-var y = d3.scale.linear()
-  .range([100, 0])
-  .domain(d3.extent(sales, function(d, i) {
-    return d.count;
-  }));
-var x = d3.time.scale()
-  .range([0, 270])
-  .domain(d3.extent(sales, function(d, i) {
-    return d.date;
+var maxCount = d3.max(sales, function(d, i) {
+  return d.count;
+});
+var x = d3.scale.linear()
+  .range([0, 300])
+  .domain([0, maxCount]);
+var y = d3.scale.ordinal()
+  .rangeRoundBands([0, 75])
+  .domain(sales.map(function(d, i) {
+    return d.product;
   }));
 
-newCircles.append('circle')
-  .attr('r', 5)
-  .attr('cx', function(d, i) {
-    // map from data to screen space
-    var date = d.date,
-        pixels = x(date);
-    return pixels;
+newRects.append('rect')
+  .attr('x', x(0))
+  .attr('y', function(d, i) {
+    return y(d.product);
   })
-  .attr('cy', function(d, i) { return y(d.count) })
-  .attr('fill', 'steelblue');
+  .attr('height', y.rangeBand())
+  .attr('width', function(d, i) {
+    return x(d.count);
+  });
     {% endhighlight %}
+  </div>
+
+  <div class="example">
+    <div class="info">
+      We're getting a little sneaky here! We're introducing an <em>ordinal</em>
+      scale, one that's discrete instead of continuous.
+    </div>
+
+    <p>
+      The <kbd>d3.scale.ordinal()</kbd> helps us create buckets for each
+      element. In this case, that's one per product.
+    </p>
+    <p>
+      The domain is the 3 product names. The range is a little different,
+      <kbd>rangeRoundBands</kbd> is a helper function that sets the range, but
+      tells D3 to pick buckets that are whole pixel widths (no fractions).
+    </p>
   </div>
 </div>
 
@@ -201,25 +216,24 @@ the opposite of `append()`.
 <div class="example-row-2">
   <div class="example">
     {% highlight javascript %}
-sales.shift(); // drops the first element
+sales.pop(); // drops the last element
 
-var circles = circles.data(sales); // join the data again
+var rects = rects.data(sales); // join the data again
 
-var circlesToRemove = circles.exit();
+var rectsToRemove = rects.exit();
 
-circlesToRemove.size()
+rectsToRemove.size()
 // 1 -- one element is part of the exit selection
 
-circlesToRemove.remove(); // instantly removes
+rectsToRemove.remove(); // instantly removes
     {% endhighlight %}
   </div>
 
   <div class="example">
     <svg width="300" height="100">
       <g transform="translate(5, 5)">
-        <circle r="5" cx="90"  cy="40" fill="steelblue" />
-        <circle r="5" cx="180" cy="10" fill="steelblue" />
-        <circle r="5" cx="270" cy="0"  fill="steelblue" />
+        <rect x="0" y="0"  height="25" width="233.33" />
+        <rect x="0" y="25" height="25" width="200" />
       </g>
     </svg>
   </div>
@@ -263,31 +277,31 @@ separate arrays.
   <div class="example">
     {% highlight javascript %}
 var sales1 = [
-  { date: new Date('2014-5-04'), count: 7 },
-  { date: new Date('2014-5-11'), count: 6 }
+  { product: 'Hoodie', count: 7 },
+  { product: 'Jacket', count: 6 }
 ];
 
 var sales2 = [
-  { date: new Date('2014-5-11'), count: 6 }, // same
-  { date: new Date('2014-5-18'), count: 9 }  // new
+  { product: 'Jacket',  count: 6 }, // same
+  { product: 'Snuggie', count: 9 }  // new
 ];
 
-var circles = svg.selectAll('circle')
-  .data(sales1, function(d, i) { return d.date; } );
+var rects = svg.selectAll('rect')
+  .data(sales1, function(d, i) { return d.product; } );
 
-circles.enter().append('circle');
+rects.enter().append('rect');
 
-circles.size();
+rects.size();
 // 2 -- first join, adds two new elements
 
-var nextCircles = circles
-  .data(sales2, function(d, i) { return d.date; });
+var nextrects = rects
+  .data(sales2, function(d, i) { return d.product; });
 
-nextCircles.exit().size();
+nextrects.exit().size();
 // 1 -- one element to remove
-nextCircles.exit().remove();
+nextrects.exit().remove();
 
-nextCircles.enter().append('circle'); // adds one element
+nextrects.enter().append('rect'); // adds one element
     {% endhighlight %}
   </div>
 </div>
@@ -304,8 +318,8 @@ transitions. The key function is critical here for object permanence.
 Suppose we have per-product sales we want to update as more products are sold?
 We can use transitions to demonstrate this update.
 
-<div class="example-row-2">
-  <div class="example">
+<div class="ex-2 example-row-2">
+  <div class="example example-source">
     <table class="data-table">
       <thead>
         <tr>
@@ -335,7 +349,7 @@ We can use transitions to demonstrate this update.
     </table>
   </div>
 
-  <div class="example">
+  <div class="example example-source">
     <table class="data-table">
       <thead>
         <tr>
@@ -366,27 +380,95 @@ We can use transitions to demonstrate this update.
   </div>
 </div>
 
-<div class="example-row-2">
+<div class="ex-2 example-row-2">
   <div class="example">
     {% highlight javascript %}
-      var day1Sales = 
+function toggle() {
+  sales = (sales == days[0]) ? days[1] : days[0];
+  update();
+}
+
+function update() {
+  var rects = svg.selectAll('rect')
+    .data(sales, function(d, i) {
+      return d.product
+    });
+
+  // When we enter, we just want to create the rect,
+  rects.enter()
+    .append('rect');
+
+  // We configure the rects here so the values
+  // apply to it applies to both new and existing
+  // rects
+  rects
+    .attr('x', x(0))
+    .attr('y', function(d, i) {
+      return y(d.product);
+    })
+    .attr('height', y.rangeBand())
+    .attr('width', function(d, i) {
+      return x(d.count);
+    });
+};
     {% endhighlight %}
   </div>
 
-  <div class="example">
-    WOWOW
+  <div class="example example-result">
+    <div>
+      <svg width="300" height="100"></svg>
+      <button class="toggle">toggle()</button>
+    </div>
   </div>
 </div>
 
+Ok, but now time to make it pretty. That's where `selection.transition()`
+comes in. In the above example, we were just using the plain update
+selection to change the values. Here, we'll use `transition()` to make our transition much slicker.
 
----
+<div class="ex-3 example-row-2">
+  <div class="example">
+    {% highlight javascript %}
+function toggle() {
+  sales = (sales == days[0]) ? days[1] : days[0];
+  update();
+}
 
-So what does D3 actually do?
+function update() {
+  var rects = svg.selectAll('rect')
+    .data(sales, function(d, i) {
+      return d.product
+    });
 
-axis / scales / coordinate systems (input data maps to here, x/y maps to screen)
-I have a range of 20 x 20 units, but it maps to a box of 400x500 on the screen (flipped coords, etc)
-SVG is Y-Down, most graphs are Y-UP
-units / labels (auto-generate date labels, etc)
-Dates!
-colors are just another scale!
-ZOMG color 10
+  rects.enter()
+    .append('rect');
+
+  rects.transition() // NEW!
+    .attr('x', x(0))
+    .attr('y', function(d, i) {
+      return y(d.product);
+    })
+    .attr('height', y.rangeBand())
+    .attr('width', function(d, i) {
+      return x(d.count);
+    });
+};
+    {% endhighlight %}
+  </div>
+
+  <div class="example example-result">
+    <div>
+      <svg width="300" height="100"></svg>
+      <button class="toggle">toggle()</button>
+    </div>
+  </div>
+</div>
+
+Ok! That was the basics! Let's go on to some more fun examples.
+
+<a href="{{ "/examples/" | prepend: site.baseurl }}" class="giant-button">
+  Next
+</a>
+
+<script type="text/javascript" src="{{ "/javascripts/data-binding.js" | prepend: site.baseurl }}"></script>
+
