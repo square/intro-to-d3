@@ -8,6 +8,7 @@ permalink: /data-binding/
 - [Joins `selection.data()`](#joins-selectiondata)
 - [Adding Elements `selection.enter()`](#adding-elements-selectionenter)
 - [Removing Elements `selection.exit()`](#removing-elements-selectionexit)
+- [The Key Function](#the-key-function)
 - [Transitions `selection.transition()`](#transitions-selectiontransition)
 
 <div class="info">
@@ -184,6 +185,8 @@ So how does it turn out? Let's take a look:
 </div>
 
 ## Removing Elements `selection.exit()`
+
+## The Key Function
 
 ## Transitions `selection.transition()`
 
