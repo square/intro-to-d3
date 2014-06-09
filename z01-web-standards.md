@@ -65,7 +65,7 @@ Here are some simple CSS rules and how they apply.
   </div>
 
   <iframe class="example"
-    height="180"
+    height="200"
     src="{{ "/examples/css-styled/" | prepend: site.baseurl }}">
   </iframe>
 </div>
@@ -175,7 +175,7 @@ SVG has lots of basic shapes, like `<rect>` and `<circle>` and `<line>`.
   </div>
 
   <iframe class="example"
-    height="180"
+    height="200"
     src="{{ "/examples/svg1-styled/" | prepend: site.baseurl }}">
   </iframe>
 </div>
