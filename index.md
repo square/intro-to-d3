@@ -3,17 +3,15 @@ layout: page
 title: Overview
 ---
 
-In this course, we're going to provide a quick intro to
-[D3.js](http://d3js.org/). It's a Javascript library with a lot of little pieces
-and we use it for creating data visualizations in the browser. It relies a lot
-on web standards.
+This course provides a quick intro to
+[D3.js](http://d3js.org/), a Javascript library for creating data visualizations
+in the browser. D3 is built on top of common web standards like HTML, CSS, and SVG.
 
-A good way to approach D3 is as a library that helps by
-"automating the hard bits you already understand" as opposed to "hiding the hard
+D3 makes web-based visualizations easier by "automating the hard bits you already
+understand," as opposed to "hiding the hard
 bits" (hat tip [@andy_matuschak](https://twitter.com/andy_matuschak/status/365547794129358849)).
 
-Again, get ready for a quick tour, not a deep-dive. The goal here is to learn
-how to learn D3.
+Again, this course is _not_ a deep dive. The goal is get a high-level understanding of D3 basics.
 
 <a href="{{ "/web-standards/" | prepend: site.baseurl }}" class="giant-button">
   Let's get started!

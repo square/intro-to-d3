@@ -17,7 +17,7 @@ permalink: /data-binding/
   internalize what was going on.
 </div>
 
-D3 selections are a different way to look at data binding, they're powerful
+D3 selections are a different way to look at data binding. They're powerful
 because the same selection can be updated for different data later on. Updating
 is the most powerful part of selections.
 
@@ -33,8 +33,8 @@ With types, the functions might look something like:
 d3.select(String selector) -> (d3.selection)
 ```
 
-D3 selections are a group of elements that match a query **or could match the
-query later**, the elements may not have been constructed yet.
+D3 selections are a group of elements that match a query **or could match a
+query later** (the elements may not have been constructed yet).
 
 ## Joins `selection.data()`
 
@@ -97,11 +97,11 @@ rects.size();
   </div>
 </div>
 
-Ok but now we have a selection but still no elements! We have more work to do.
+Okay, now we have a selection but still no elements! We have more work to do.
 
 ## Adding Elements `selection.enter()`
 
-Again, our goal is to have a circle for each data point. We are starting with
+Again, our goal is to have a rectangle for each data point. We are starting with
 none and we have 4 new data points, so obviously the right thing to do is to
 add a new `<rect>` for each data point.
 
