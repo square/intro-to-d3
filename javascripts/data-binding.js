@@ -99,6 +99,7 @@
         .append('rect');
 
       rects.transition()
+        .duration(1000)
         .attr('x', x(0))
         .attr('y', function(d, i) {
           return y(d.product);
