@@ -426,6 +426,10 @@ Ok, but now time to make it pretty. That's where `selection.transition()`
 comes in. In the above example, we were just using the plain update
 selection to change the values. Here, we'll use `transition()` to make our transition much slicker.
 
+`transition()` selections can have custom timing attributes like `.duration()`
+and `.delay()` and even a custom easing function `.ease()`, but the defaults
+are pretty nice.
+
 <div class="ex-3 example-row-2">
   <div class="example">
     {% highlight javascript %}
@@ -444,6 +448,7 @@ function update() {
     .append('rect');
 
   rects.transition() // NEW!
+    .duration(1000)  // also NEW!
     .attr('x', x(0))
     .attr('y', function(d, i) {
       return y(d.product);
