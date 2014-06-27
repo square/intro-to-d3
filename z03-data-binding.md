@@ -469,11 +469,4 @@ function update() {
   </div>
 </div>
 
-Ok! That was the basics! Let's go on to some more fun examples.
-
-<a href="{{ "/examples/" | prepend: site.baseurl }}" class="giant-button">
-  Next
-</a>
-
-<script type="text/javascript" src="{{ "/javascripts/data-binding.js" | prepend: site.baseurl }}"></script>
-
+Ok! That was the basics!
