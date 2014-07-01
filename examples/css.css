@@ -1,15 +1,19 @@
-p { /* Applied to all <p> tags */
+/* Applied to all <p> tags */
+p {
   color: blue;
 }
 
-.red { /* Applied to all tags with the class "red" */
+/* Applied to all tags with the class "red" */
+.red {
   background: red;
 }
 
-#some-id { /* Applied to the tag with the id "some-id" */
+/* Applied to the tag with the id "some-id" */
+#some-id {
   font-style: italic;
 }
 
-li p { /* Applied only to <p> tags that are contained within <li> tags */
-  color: #333;
+/* Applied only to <p> tags that are inside <li> tags */
+li p {
+  color: #0C0;
 }
