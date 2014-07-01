@@ -5,23 +5,20 @@ permalink: /parts-of-a-graph/
 ---
 
 - [Example](#example)
+  - [The Scale](#the-scale)
+  - [The Axes](#the-axes)
+  - [The Data](#the-data)
+- [Doing It The Hard Way](#doing-it-the-hard-way)
+- [Doing It The D3 Way](#doing-it-the-d3-way)
+  - [Small Helpers](#small-helpers)
   - [Scales](#scales)
   - [Axes](#axes)
   - [Data](#data)
-- [The Hard Way](#the-hard-way)
-- [The D3 Way](#the-d3-way)
-  - [Small Helpers](#small-helpers)
-  - [Scales](#scales-1)
-  - [Axes](#axes-1)
-  - [Data](#data-1)
 
 ## Example
 
-The most common visualizations use standard chart formats because they're easy
-understand.
-
-If we had a table in Excel and wanted to graph it, it's easy! Just point
-it at our rows and columns, set a few colors, and boom! A graph.
+Let's say you have a table in Excel and want to graph it. It's easy! Just point
+it at your rows and columns, set a few colors, and boom! A graph.
 
 <div class="ex-1 example-row-2">
   <div class="example example-source">
@@ -57,42 +54,42 @@ it at our rows and columns, set a few colors, and boom! A graph.
   </div>
 </div>
 
-So now we want to make one of these in SVG so we show it off on the interwebs.
-It's going to be a bit more work.
+So now we want to make one of these in SVG to show it off on the interwebs.
+It's going to be a bit more work. What do we need to make sure we get right?
 
-### Scales
+### The Scale
 
 This graph has to be "to scale". It has to have a coordinate system!
 
 The x-axis goes from January 2014 to April 2014, and the y-axis goes from $0 to
 $80. However, the SVG is drawn in a box that's about 200 by 300 pixels. Dates
-and pixels don't must map to one another on their own, so we have to specify one
+and pixels don't map to one another on their own, so we have to specify a mapping
 somehow.
 
 <div class="info">
-  Note! The y-axis flips! The SVG origin, <kbd>(0, 0)</kbd> is in the top left,
+  Note that the y-axis flips! The SVG origin, <kbd>(0, 0)</kbd> is in the top left,
   but in this graph, the origin is the bottom left. We call the chart
   <em>y-up</em> and we call SVG <em>y-down</em>.
 </div>
 
-### Axes
+### The Axes
 
-We can actually read the graph because it has clearly labeled Those labels
-with "$10" and "Februrary" have to get to our screen somehow. They're also
+We can actually read the Excel graph because it's clearly labeled. Those same labels
+with "$20" and "Februrary" have to get to our screen somehow. They also need to be
 formatted correctly for the data type.
 
-### Data
+### The Data
 
 Our graph is showing our data! Somehow, the 4 rows in our source table
-have turned into 4 points on the line. On top of that, the points in the line
-fit into the coordinate system we've defined.
+need to turn into 4 points on a line. On top of that, the points in the line
+need to fit into the coordinate system we've defined.
 
 We can kind of intuit this, but it's critical to working with D3. We have data
 coming in, and we transform it to something visual.
 
-## The Hard Way
+## Doing It The Hard Way
 
-Let's make a graph the hard way! As we've seen earlier, the `<path>` tag is
+Let's make a graph the hard way! As we've seen earlier, the SVG `<path>` tag is
 kind of complex, so we'll swap out a line graph for a scatterplot.
 
 We'll need to manually write out each point. Transform attributes are inherited
@@ -112,7 +109,7 @@ axes, or even offset the entire graph by a margin.
 
 Man! All that work for such a simple graph? SVG is a lot of work!
 
-## The D3 Way
+## Doing It The D3 Way
 
 Good news! D3 has pieces to help with each of the parts of a graph we listed
 above! However, D3 does this in the spirit of "automating the hard bits you

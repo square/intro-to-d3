@@ -9,17 +9,13 @@ permalink: /web-standards/
 - [The DOM](#the-dom)
 - [SVG](#svg)
 
-Like we mentioned, D3 takes advantage of a lot of web standards. We're going
-to give quick whirlwind tour of the relevant ones. Don't worry if you don't
-know all the nitty-gritty details, you can pick this stuff up pretty quickly.
+D3 is built on top of several common web standards. Don't worry if you don't
+know all the nitty-gritty details of these standards, you can pick this stuff up pretty quickly.
 
 ### HTML
 
 HTML (HyperText Markup Language) is a text format that most web pages are
-written in. It's loosely related to XML, but much less strict (for
-example some tags such as `<br>` don't need matching closing tags.
-
-There are a standard set of HTML tags with standard meanings, `<h1>`, `<h2>`
+written in. HTML uses a standard set of tags to define the different structural components of a webpage: `<h1>`, `<h2>`
 tags define headers, `<p>` tags define paragraphs, `<ol>` and `<ul>` are
 orderered and unordered lists. Browsers have common ways to display these tags, so lists show up like lists, and headers like headers.
 
@@ -43,11 +39,10 @@ The basic outline of an HTML page is something like this:
 
 ### CSS
 
-CSS (Cascading Stylesheets) is a language for styling web pages.
+CSS (Cascading Stylesheets) is a language for styling HTML pages.
 
-Styles (also know as selectors) describe elements on a page. Styles are usually applied to a tag name, class or ID. Many parts of an element can be used to
-define a style---even attribute values---but we won't need to worry about that
-today.
+CSS styles (also know as selectors) are typically applied to HTML tags
+based on their name, class, or ID.
 
 Here are some simple CSS rules and how they apply.
 
@@ -72,14 +67,13 @@ Here are some simple CSS rules and how they apply.
 
 ### The DOM
 
-Browsers turn HTML document structures into an object graph, this is the
-Document Object Model, but many folks refer to it as the DOM. In this graph,
-elements have children, and most HTML attributes are available as properties on these objects.
+When a browser displays an HTML page, it creates an interactive object graph from the tag hierarchy.
+This object graph is called the Document Object Model, or DOM.
 
 The standard DOM API is somewhat verbose, so many libraries like jQuery and D3
-provide some syntactic sugar, that borrows from CSS notation.
+provide some syntactic sugar that borrows from CSS notation.
 
-Here are some examples of accessing the document structure programatically.
+Here are some examples of accessing the DOM programatically.
 
 <div class="example-row-3">
   <div class="example">
@@ -118,10 +112,10 @@ reds.text();
 </div>
 
 The DOM also handles tracking elements as they are rendered, as well as events
-such as mouse movement. There are lots of events, which we can attach to to add
-various levels of interactivity to our pages.
+like mouse movement. You can attach listeners to these events to add
+various levels of interactivity to your page.
 
-Here are some examples of using the `click`, `mouseover` and `mouseleave`
+Here are some examples of adding listeners to the the `click`, `mouseover` and `mouseleave`
 events. D3 has some nice helper methods for working with events as well.
 
 <div class="example-row-3">
@@ -144,22 +138,21 @@ events. D3 has some nice helper methods for working with events as well.
 </div>
 
 <div class="info">
-  Note! In the D3 examples, the methods on the selection can chain
+  Note: In the D3 examples, the methods on the selection can chain
   (that is, they return themselves, so we can group them visually).
 </div>
 
 ### SVG
 
-SVG stands for Scalable Vector Graphic. It's an XML format specifically for
-drawing. Modern browsers support SVG natively, and we can think of SVG
-in a lot of the same terms as the DOM -- there are elements with parents and
-children and attributes, and we can use the same mouse/touch events!
+SVG (Scalable Vector Graphics) is an XML format used for
+drawing. You can think of SVG in a lot of the same terms as the DOM -- there are elements with parents and
+children and attributes, and you can respond to the same mouse/touch events.
 
-Even CSS styles can apply to SVG elements! The CSS attribute names for SVG
+Even CSS styles can apply to SVG elements. The CSS attribute names for SVG
 come from the SVG definition, so they are sometimes different from their
 HTML brethren.
 
-SVG has lots of basic shapes, like `<rect>` and `<circle>` and `<line>`.
+SVG defines tags for lots of basic shapes, like `<rect>` and `<circle>` and `<line>`.
 
 <div class="example-row-3">
   <div class="example">
