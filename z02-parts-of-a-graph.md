@@ -5,15 +5,15 @@ permalink: /parts-of-a-graph/
 ---
 
 - [Example](#example)
+  - [The Scale](#the-scale)
+  - [The Axes](#the-axes)
+  - [The Data](#the-data)
+- [Doing It The Hard Way](#doing-it-the-hard-way)
+- [Doing It The D3 Way](#doing-it-the-d3-way)
+  - [Small Helpers](#small-helpers)
   - [Scales](#scales)
   - [Axes](#axes)
   - [Data](#data)
-- [The Hard Way](#the-hard-way)
-- [The D3 Way](#the-d3-way)
-  - [Small Helpers](#small-helpers)
-  - [Scales](#scales-1)
-  - [Axes](#axes-1)
-  - [Data](#data-1)
 
 ## Example
 
