@@ -10,7 +10,7 @@
     row.selectAll('td').each(function(d, i) {
       var td = d3.select(this);
       if (i == 0) {
-        date = new Date(td.text());
+        date = new Date(Date.parse(td.text()));
       } else {
         amount = parseFloat(td.text().replace(/\D/, ''));
       }

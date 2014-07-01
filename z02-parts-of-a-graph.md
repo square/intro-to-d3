@@ -31,19 +31,19 @@ it at your rows and columns, set a few colors, and boom! A graph.
       </thead>
       <tbody>
         <tr>
-          <td>2014-1-1</td>
+          <td>2014-01-01</td>
           <td>$10</td>
         </tr>
         <tr>
-          <td>2014-2-1</td>
+          <td>2014-02-01</td>
           <td>$20</td>
         </tr>
         <tr>
-          <td>2014-3-1</td>
+          <td>2014-03-01</td>
           <td>$40</td>
         </tr>
         <tr>
-          <td>2014-4-1</td>
+          <td>2014-04-01</td>
           <td>$80</td>
         </tr>
       </tbody>
@@ -204,10 +204,13 @@ We can even do the same things with dates!
   <div class="example">
     {% highlight javascript %}
 var x = d3.time.scale()
-    .domain([ new Date('2014-1-1'), new Date('2014-4-1') ])
+    .domain([
+      new Date(Date.parse('2014-01-01')),
+      new Date(Date.parse('2014-04-01'))
+    ])
     .range([0, 300]);
 
-x(new Date('2014-2-1'));
+x(new Date(Date.parse(('2014-02-01')));
 // 103.3811949976841
     {% endhighlight %}
   </div>
