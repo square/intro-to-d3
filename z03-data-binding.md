@@ -470,3 +470,5 @@ function update() {
 </div>
 
 Ok! That was the basics!
+
+<script type="text/javascript" src="{{ "/javascripts/data-binding.js" | prepend: site.baseurl }}"></script>
