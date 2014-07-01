@@ -20,7 +20,7 @@ tags define headers, `<p>` tags define paragraphs, `<ol>` and `<ul>` are
 orderered and unordered lists. Browsers have common ways to display these tags, so lists show up like lists, and headers like headers.
 
 The `<div>` and `<span>` tags are special because browers don't apply
-default styles to them, so HTML authors can use them to define custom structures.
+default styles to them, so HTML authors can use them to define custom groups.
 
 The basic outline of an HTML page is something like this:
 
