@@ -36,6 +36,10 @@ body {
   padding: 0;
 }
 
+p {
+  line-height: 1.3em;
+}
+
 h1 {
   font-weight: 100;
   text-transform: uppercase;
