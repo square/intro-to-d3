@@ -5,10 +5,12 @@
 
 <ol class="nav">
   {% for p in site.pages %}
-    <li {% if p.url == page.url %} class="active" {% endif %}>
-      <a href="{{ p.url | prepend: site.baseurl }}">
-        {{ p.title }}
-      </a>
-    </li>
+    {% if p.title %}
+      <li {% if p.url == page.url %} class="active" {% endif %}>
+        <a href="{{ p.url | prepend: site.baseurl }}">
+          {{ p.title }}
+        </a>
+      </li>
+    {% endif %}
   {% endfor %}
 </ol>

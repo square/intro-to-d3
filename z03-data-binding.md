@@ -249,12 +249,13 @@ values:
   <div class="example">
     {% highlight javascript %}
 var obj1 = { value: 1 };
-var obj2 = { value: 2 };
-
-obj1 == obj1;
 // true -- identity
-obj1 == obj2;
+obj1 == obj1;
+
+var obj2 = { value: 2 };
+var obj3 = { value: 2 };
 // false -- huh? they have the same values!
+obj2 == obj3;
     {% endhighlight %}
   </div>
 </div>

@@ -222,3 +222,9 @@ frame, iframe {
   background-color: #ff9;
   padding: 10pt;
 }
+
+.footer {
+  font-size: 80%;
+  text-align: center;
+  padding: 2em 0;
+}
