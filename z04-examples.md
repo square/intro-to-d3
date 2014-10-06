@@ -109,7 +109,7 @@ g.selectAll('path.slice')
 
 // building a legend is as simple as binding
 // more elements to the same data. in this case,
-// text tags
+// <text> tags
 svg.append('g')
   .attr('class', 'legend')
     .selectAll('text')
@@ -118,7 +118,7 @@ svg.append('g')
         .append('text')
           .text(function(d) { return '• ' + d.data.product; })
           .attr('fill', function(d) { return color(d.data.product); })
-          .attr('y', function(d, i) { return 15 * (i + 1); })
+          .attr('y', function(d, i) { return 20 * (i + 1); })
     {% endhighlight %}
   </div>
 
