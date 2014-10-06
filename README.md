@@ -13,5 +13,5 @@ gem install jekyll
 Generate the static HTML and serve it (does not auto-reload)
 
 ```
-jekyll serve
+jekyll serve --watch
 ```

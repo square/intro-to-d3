@@ -470,6 +470,11 @@ function update() {
   </div>
 </div>
 
-Ok! That was the basics!
+Ok! That was the basics of D3!
+
+<a href="{{ "/examples" | prepend: site.baseurl }}" class="giant-button">
+  Next
+</a>
+
 
 <script type="text/javascript" src="{{ "/javascripts/data-binding.js" | prepend: site.baseurl }}"></script>
