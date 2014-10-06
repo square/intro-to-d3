@@ -93,11 +93,11 @@ var arc = d3.svg.arc()
 // helper that returns a color based on an ID
 var color = d3.scale.category10();
 
-var svg = d3.select('svg.pie')
-  .append('g')
-    .attr('transform', 'translate(200, 50)')
+var svg = d3.select('svg.pie');
+var g = svg.append('g')
+  .attr('transform', 'translate(200, 50)')
 
-svg.selectAll('path.slice')
+g.selectAll('path.slice')
   .data(slices)
     .enter()
       .append('path')
@@ -106,6 +106,19 @@ svg.selectAll('path.slice')
         .attr('fill', function(d) {
           return color(d.data.product);
         });
+
+// building a legend is as simple as binding
+// more elements to the same data. in this case,
+// text tags
+svg.append('g')
+  .attr('class', 'legend')
+    .selectAll('text')
+    .data(slices)
+      .enter()
+        .append('text')
+          .text(function(d) { return '• ' + d.data.product; })
+          .attr('fill', function(d) { return color(d.data.product); })
+          .attr('y', function(d, i) { return 15 * (i + 1); })
     {% endhighlight %}
   </div>
 
