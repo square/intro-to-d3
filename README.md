@@ -10,7 +10,7 @@ Make sure you have Jekyll
 gem install jekyll
 ```
 
-Generate the static HTML and serve it (does not auto-reload)
+Generate the static HTML and serve it:
 
 ```
 jekyll serve --watch
