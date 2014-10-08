@@ -3,6 +3,15 @@ layout: page
 title: Overview
 ---
 
+### Background
+
+In Square's New Engineer Onboarding program, we offer short courses and lectures
+on tools the variety of tools that Square uses. We started to collect notes from
+our course on D3.js and found that it was well-suited to a written tutorial, and
+was worth sharing.
+
+### Introduction
+
 This course provides a quick intro to
 [D3.js](http://d3js.org/), a Javascript library for creating data visualizations
 in the browser. D3 is built on top of common web standards like HTML, CSS, and SVG.
