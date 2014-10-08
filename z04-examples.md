@@ -135,7 +135,7 @@ svg.append('g')
 
     The <kbd>d3.scale.category10</kbd> helper gives us back a function. This function
     takes in values (typically IDs) and gives back a color. The same ID gets the
-    same color, and it will rotate through 10 colors that pretty easy to tell
+    same color, and it will rotate through 10 colors that are pretty easy to tell
     apart.
   </div>
 </div>
