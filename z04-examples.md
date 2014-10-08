@@ -10,6 +10,7 @@ has to offer.
 - [Layouts and SVG Helpers](#layouts-and-svg-helpers)
 - [A Pie Chart](#a-pie-chart)
 - [Stacked Bars](#stacked-bars)
+- [Onward!](#onward)
 
 ## Layouts and SVG Helpers
 
@@ -346,8 +347,29 @@ layers.selectAll('rect')
     we should stack the bars: D3 gives us stacked results in our data space, but
     not in SVG's coordinate system. We have to deal with the same confusing
     <a href="{{ "/parts-of-a-graph/#the-scale" prepend: site.baseurl }}">Y-axis
-    coordinate flip</a>.
+    coordinate flip</a>.</p>
   </div>
 </div>
+
+## Onward!
+
+D3 has a lot to offer, and our goal here was to give a brief tour and cover some
+core concepts! There's much more to learn about D3, but hopefully this tutorial
+has given you enough so that you can teach yourself the rest.
+
+There are lot of great resources for learning D3 out there:
+
+1. First and foremost, [D3's own wiki][d3-wiki]. This is a great starting point
+   for any D3-related exploration
+
+2. Nestled inside that wiki, the [D3 API Reference][d3-api-reference]
+   is great for remembering what APIs there are and what the various parameters
+   mean.
+
+But don't stop there! Google searches are a great way to discover things too.
+Happy visualizing!
+
+[d3-wiki]: https://github.com/mbostock/d3/wiki
+[d3-api-reference]: https://github.com/mbostock/d3/wiki/API-Reference
 
 <script type="text/javascript" src="{{ "/javascripts/examples.js" | prepend: site.baseurl }}"></script>
