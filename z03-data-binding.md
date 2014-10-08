@@ -470,7 +470,8 @@ function update() {
   </div>
 </div>
 
-Ok! That was the basics of D3!
+Ok! That was the basics of D3! We've got a few more complex examples, but they
+mostly build on what we've already shown.
 
 <a href="{{ "/examples" | prepend: site.baseurl }}" class="giant-button">
   Next
