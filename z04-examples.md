@@ -9,6 +9,8 @@ has to offer.
 
 - [Layouts and SVG Helpers](#layouts-and-svg-helpers)
 - [A Pie Chart](#a-pie-chart)
+- [Stacked Bars](#stacked-bars)
+- [Onward!](#onward)
 
 ## Layouts and SVG Helpers
 
@@ -137,5 +139,237 @@ svg.append('g')
     apart.
   </div>
 </div>
+
+## Stacked Bars
+
+One of the most common charts to draw is some variation of stacked bars.
+These are deceptively complex, because after the first layer, each new layer
+of bars depends on layout of the previous one.
+
+The data requirements are also different because stacked bars need to have
+dense data sources. In most graphs, we could omit an empty value because it
+won't be drawn, but in a stacked layout, that still could affect the layout
+of the next layer.
+
+Let's start we have sales of our products over multiple days.
+
+<div class="ex-exec example-row-1">
+  <div class="example">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th colspan="4">
+            Sales
+          </th>
+        </tr>
+        <tr>
+          <th>Date</th>
+          <th>Hoodie</th>
+          <th>Jacket</th>
+          <th>Snuggie</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2014-01-01</td>
+          <td>6</td>
+          <td>2</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>2014-01-02</td>
+          <td>7</td>
+          <td>5</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>2014-01-03</td>
+          <td>8</td>
+          <td>7</td>
+          <td>3</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+Transformed into a dense array, our data looks like this:
+
+<div class="ex-exec example-row-1">
+  <div class="example example-source">
+    {% highlight javascript %}
+var sales = [
+  {
+    name: "Hoodie",
+    values: [
+      { count: 6, date: "2014-01-01" },
+      { count: 7, date: "2014-01-02" },
+      { count: 8, date: "2014-01-03" }
+    ]
+  },
+  {
+    name: "Jacket",
+    values: [
+      { count: 2, date: "2014-01-01" },
+      { count: 5, date: "2014-01-02" },
+      { count: 7, date: "2014-01-03" }
+    ]
+  },
+  {
+    name: "Snuggie",
+    values: [
+      { count: 3, date: "2014-01-01" },
+      { count: 2, date: "2014-01-02" },
+      { count: 3, date: "2014-01-03" }
+    ]
+  }
+];
+    {% endhighlight %}
+  </div>
+</div>
+
+Now we can take advantage of the `d3.layout.stack` to do the work of stacking
+our layers on top each other. While normally a bar graph would have one `y`
+value, a stacked one has two:
+
+  - `y0` where a segment starts ("baseline")
+  - `y` the height of the segment
+
+For the first layer stacked bar chart (at the bottom), `y0` is typically 0.
+It can be other values for things like [streamgraphs][streamgraph], which are
+a whole other topic.
+
+[streamgraph]: http://bl.ocks.org/mbostock/4060954
+
+<div class="ex-exec example-row-1">
+  <div class="example example-source">
+    {% highlight javascript %}
+var stack = d3.layout.stack()
+  .values(function(d) { return d.values; })
+  .x(function(d) { return new Date(Date.parse(d.date)); })
+  .y(function(d) { return d.count; });
+
+var stacked = stack(sales);
+    {% endhighlight %}
+  </div>
+</div>
+
+Now, `stacked` will contain the data in `sales` plus `y` and `y0`,
+which will come in handy when it's time to draw these. For examples, the last
+layer, `stacked[2]`, now looks like this:
+
+<div class="example-row-1">
+  <div class="example example-source">
+    {% highlight javascript %}
+{
+  name: "Snuggie",
+  values: [
+    { count: 3, date: "2014-01-01", y: 3, y0: 8 },
+    { count: 2, date: "2014-01-02", y: 2, y0: 12 },
+    { count: 3, date: "2014-01-03", y: 3, y0: 15 }
+  ]
+}
+    {% endhighlight %}
+  </div>
+</div>
+
+Let's get to drawing! We'll bring back our good friends `d3.scale.linear` and
+`d3.time.scale`.
+
+<div class="ex-exec example-row-2">
+  <div class="example example-source">
+    {% highlight javascript %}
+var height = 200;
+var width = 200;
+
+// we need to calculate the maximum y-value
+// across all our layers, and for each data point,
+// we need to combine the start `d.y0` and the
+// height `d.y` to get highest point
+var maxY = d3.max(stacked, function(d) {
+  return d3.max(d.values, function(d) {
+    return d.y0 + d.y;
+  });
+});
+
+var y = d3.scale.linear()
+  .range([height, 0])
+  .domain([0, maxY]);
+
+var x = d3.time.scale()
+  .range([0, width])
+  .domain(d3.extent(sales[0].values, function(d) {
+    // normally we would check across all our layers,
+    // but we can "cheat" and use `sales[0].values`
+    // since we know all layers have the same domain
+    return new Date(Date.parse(d.date));
+  }))
+  .nice(4);
+
+var svg = d3.select('svg.stack');
+var color = d3.scale.category10();
+
+// bind a <g> tag for each layer
+var layers = svg.selectAll('g.layer')
+  .data(stacked, function(d) { return d.name; })
+    .enter()
+      .append('g')
+        .attr('class', 'layer')
+        .attr('fill', function(d) { return color(d.name); })
+
+// bind a <rect> to each value inside the layer
+layers.selectAll('rect')
+  .data(function(d) { return d.values; })
+  .enter()
+    .append('rect')
+      .attr('x', function(d) {return x(new Date(Date.parse(d.date))); })
+      .attr('width', width / 3)
+      .attr('y', function(d) {
+        // remember that SVG is y-down while our graph is y-up!
+        // here, we set the top-left of this bar segment
+        return y(d.y0 + d.y);
+      }).attr('height', function(d) {
+        // since we are drawing our bar from the top downwards,
+        // the length of the bar is the distance from the bottom
+        // so we subtract from `height`
+        return height - y(d.y)
+      });
+    {% endhighlight %}
+  </div>
+
+  <div class="example">
+    <div>
+      <svg class="stack" width="300" height="250"></svg>
+    </div>
+
+    <p>There are a few things that make this graph a little more complex. One of
+    the hardest parts is realizing that D3 is really only going to hint at how
+    we should stack the bars: D3 gives us stacked results in our data space, but
+    not in SVG's coordinate system. We have to deal with the same confusing
+    <a href="{{ "/parts-of-a-graph/#the-scale" prepend: site.baseurl }}">Y-axis
+    coordinate flip</a>.</p>
+  </div>
+</div>
+
+## Onward!
+
+D3 has a lot to offer, and our goal here was to give a brief tour and cover some
+core concepts! There's much more to learn about D3, but hopefully this tutorial
+has given you enough so that you can teach yourself the rest.
+
+There are lot of great resources for learning D3 out there:
+
+1. First and foremost, [D3's own wiki][d3-wiki]. This is a great starting point
+   for any D3-related exploration
+
+2. Nestled inside that wiki, the [D3 API Reference][d3-api-reference]
+   is great for remembering what APIs there are and what the various parameters
+   mean.
+
+But don't stop there! Google searches are a great way to discover things too.
+Happy visualizing!
+
+[d3-wiki]: https://github.com/mbostock/d3/wiki
+[d3-api-reference]: https://github.com/mbostock/d3/wiki/API-Reference
 
 <script type="text/javascript" src="{{ "/javascripts/examples.js" | prepend: site.baseurl }}"></script>
