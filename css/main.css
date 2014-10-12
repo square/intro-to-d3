@@ -228,3 +228,10 @@ frame, iframe {
   text-align: center;
   padding: 2em 0;
 }
+
+.fork-me-on-github {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+}
