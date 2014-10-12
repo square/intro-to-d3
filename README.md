@@ -1,17 +1,28 @@
 # Intro to D3
 
-A brief intro, this is the source. The result is on the `gh-pages` branch.
+This is the source for Square's [Intro to D3.js][intro-to-d3] tutorial, it's
+a brief intro to d3.js with examples.
 
-## Developing
+[intro-to-d3]: http://square.github.io/intro-to-d3s
 
-Make sure you have Jekyll
+## Developing Locally
+
+Make sure you have Jekyll.
 
 ```
 gem install jekyll
 ```
 
-Generate the static HTML and serve it:
+Generate the static HTML and serve it locally:
 
 ```
 jekyll serve --watch
 ```
+
+## Contributing
+
+See our [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+See our [LICENSE.txt](LICENSE.txt).
