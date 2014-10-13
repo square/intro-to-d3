@@ -3,7 +3,7 @@
 This is the source for Square's [Intro to D3.js][intro-to-d3] tutorial, it's
 a brief intro to d3.js with examples.
 
-[intro-to-d3]: http://square.github.io/intro-to-d3s
+[intro-to-d3]: https://square.github.io/intro-to-d3
 
 ## Developing Locally
 
