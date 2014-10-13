@@ -4,13 +4,18 @@ set -ex
 
 DEPLOY_BRANCH="gh-pages"
 
-jekyll build
-
 CURRENT_SHA=$(git log HEAD^..HEAD --format="%h")
+
+# GitHub's jekyll appears to treat symlinks differently than local jekyll,
+# so we copy all the files that are symlinked by the examples directory
+
+rm examples # remove symlink
+mkdir examples
+cp -r _includes/examples/ examples/
 
 git checkout -B gh-pages
 
-git add -f _site/
+git add -f examples/
 
 git commit -m "[script/deploy] Generate $DEPLOY_BRANCH from $CURRENT_SHA"
 
