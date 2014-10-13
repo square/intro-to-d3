@@ -5,10 +5,10 @@ title: Overview
 
 ### Background
 
-In Square's New Engineer Onboarding program, we offer short courses and lectures
-on tools the variety of tools that Square uses. We started to collect notes from
-our course on D3.js and found that it was well-suited to a written tutorial, and
-was worth sharing.
+In Square’s new engineer onboarding program, which we call NEO, we offer short
+courses and lectures on a variety of tools that we use at Square. We started to
+collect notes from our course on D3.js and found the notes were well-suited for
+a tutorial — and worth sharing.
 
 ### Introduction
 
@@ -20,7 +20,8 @@ D3 makes web-based visualizations easier by "automating the hard bits you alread
 understand," as opposed to "hiding the hard
 bits" (hat tip [@andy_matuschak](https://twitter.com/andy_matuschak/status/365547794129358849)).
 
-Again, this course is _not_ a deep dive. The goal is get a high-level understanding of D3 basics.
+Again, the tutorial is _not_ a deep dive — we want you to learn _how_ to learn
+D3 and gain a high-level understanding of this useful tool.
 
 <a href="{{ "/web-standards/" | prepend: site.baseurl }}" class="giant-button">
   Let's get started!
