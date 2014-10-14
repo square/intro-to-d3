@@ -192,7 +192,7 @@ we translate values from one coordinate to another.
     {% highlight javascript %}
 y(0);   // in: $0
 // 200  // out: 200px (bottom of graph)
-y(80);  // in: $0
+y(80);  // in: $80
 // 0    // out: 0px (top of graph)
     {% endhighlight %}
   </div>
