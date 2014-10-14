@@ -74,12 +74,13 @@ frame, iframe {
 .nav li {
   display: inline-block;
   list-style: none;
-  padding: 12pt 12pt;
 }
 
 .nav li a {
   color: white;
   text-decoration: none;
+  display: inline-block;
+  padding: 12pt 12pt;
 }
 
 .nav li a:hover, .nav li a:focus {
