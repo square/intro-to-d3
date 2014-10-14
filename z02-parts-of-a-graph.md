@@ -240,7 +240,7 @@ say, "hey, I want to build an axis that".
 </div>
 
 D3's axes are really powerful! Notice how we built it using <kbd>Date</kbd>
-objects, and by default, it labeled the tickets appopriately!
+objects, and by default, it labeled the tick marks appopriately!
 
 ### Data
 
