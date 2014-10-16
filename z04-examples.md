@@ -366,10 +366,14 @@ There are lot of great resources for learning D3 out there:
    is great for remembering what APIs there are and what the various parameters
    mean.
 
+3. For more examples of what is possible with D3 check out the
+   [D3 examples][d3-examples] by creator of D3, Mike Bostock.
+
 But don't stop there! Google searches are a great way to discover things too.
 Happy visualizing!
 
 [d3-wiki]: https://github.com/mbostock/d3/wiki
 [d3-api-reference]: https://github.com/mbostock/d3/wiki/API-Reference
+[d3-examples]: http://bl.ocks.org/mbostock
 
 <script type="text/javascript" src="{{ "/javascripts/examples.js" | prepend: site.baseurl }}"></script>
