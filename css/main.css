@@ -52,6 +52,13 @@ h1 {
   margin: 0;
 }
 
+h1 a {
+  text-decoration: none;
+
+  background-color: transparent;
+  color: inherit;
+}
+
 h1 .jewel {
   margin-bottom: -2pt;
 }
