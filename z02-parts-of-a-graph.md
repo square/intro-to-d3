@@ -55,7 +55,7 @@ it at your rows and columns, set a few colors, and boom! A graph.
 </div>
 
 So now we want to make one of these in SVG to show it off on the interwebs.
-It's going to be a bit more work. What do we need to make sure we get right?
+It's going to be a bit more work. What do we need to make sure we get it right?
 
 ### The Scale
 
