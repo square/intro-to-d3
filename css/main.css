@@ -53,8 +53,10 @@ h1 {
 }
 
 h1 a {
-  color: inherit;
   text-decoration: none;
+
+  background-color: transparent;
+  color: inherit;
 }
 
 h1 .jewel {
