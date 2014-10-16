@@ -64,13 +64,13 @@ var slices = pie(sales);
     value: 12
   },
   {
-    data: slices[1],
+    data: sales[1],
     startAngle: 3.0159289474462017,
     endAngle: 4.775220833456486,
     value: 7
   },
   {
-    data: slices[2],
+    data: sales[2],
     startAngle: 4.775220833456486,
     endAngle: 6.283185307179587,
     value: 6
