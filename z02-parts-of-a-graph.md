@@ -175,7 +175,7 @@ Or if we wanted to take advantage of the helper methods above:
 <div class="example-row-1">
   <div class="example">
     {% highlight javascript %}
-y.domain(d3.extent(data, function(d) { return d.amount });
+y.domain(d3.extent(data, function(d) { return d.amount }));
     {% endhighlight %}
   </div>
 </div>
@@ -210,7 +210,7 @@ var x = d3.time.scale()
     ])
     .range([0, 300]);
 
-x(new Date(Date.parse(('2014-02-01')));
+x(new Date(Date.parse('2014-02-01')));
 // 103.3811949976841
     {% endhighlight %}
   </div>
