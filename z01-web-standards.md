@@ -115,7 +115,7 @@ The DOM also handles tracking elements as they are rendered, as well as events
 like mouse movement. You can attach listeners to these events to add
 various levels of interactivity to your page.
 
-Here are some examples of adding listeners to the the `click`, `mouseover` and `mouseleave`
+Here are some examples of adding listeners to the `click`, `mouseover` and `mouseleave`
 events. D3 has some nice helper methods for working with events as well.
 
 <div class="example-row-3">
