@@ -75,7 +75,7 @@ somehow.
 ### The Axes
 
 We can actually read the Excel graph because it's clearly labeled. Those same labels
-with "$20" and "Februrary" have to get to our screen somehow. They also need to be
+with "$20" and "February" have to get to our screen somehow. They also need to be
 formatted correctly for the data type.
 
 ### The Data
