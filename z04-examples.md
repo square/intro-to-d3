@@ -346,7 +346,7 @@ layers.selectAll('rect')
     the hardest parts is realizing that D3 is really only going to hint at how
     we should stack the bars: D3 gives us stacked results in our data space, but
     not in SVG's coordinate system. We have to deal with the same confusing
-    <a href="{{ "/parts-of-a-graph/#the-scale" prepend: site.baseurl }}">Y-axis
+    <a href="{{ "/parts-of-a-graph/#the-scale" | prepend: site.baseurl }}">Y-axis
     coordinate flip</a>.</p>
   </div>
 </div>
