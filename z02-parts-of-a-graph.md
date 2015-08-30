@@ -96,14 +96,14 @@ We'll need to manually write out each point. Transform attributes are inherited
 by child elements, so we can use `<g>` tags to move entire groups, such as the
 axes, or even offset the entire graph by a margin.
 
-<div class="example-row-2">
+<div class="example-row-1">
+  <div class="example">
+    {% include examples/scatterplot.svg %}
+  </div>
   <div class="example">
     {% highlight html %}
       {% include examples/scatterplot.svg %}
     {% endhighlight %}
-  </div>
-  <div class="example">
-    {% include examples/scatterplot.svg %}
   </div>
 </div>
 
@@ -130,6 +130,8 @@ often the data is homogenous arrays.
       {% include examples/data.js %}
 d3.min(numbers);
 // 1
+d3.extent(numbers);
+// [1, 10]
     {% endhighlight %}
   </div>
 </div>
@@ -155,8 +157,8 @@ d3.extent(numbers);
 
 D3 has objects called scales that help map values across coordinate systems.
 There are different kinds of scales (linear, logarithmic, linear for time).
-Scales are configured with a domain and a range, they map from the data to
-the approprate part of the screen (screen space).
+Scales are configured with a Domain (the raw data) and a Range (pixel plot size),
+they map from the data to the approprate part of the screen (screen space).
 
 Here is how we set up the y-scale for the above money example:
 
@@ -224,19 +226,18 @@ We'll come across more scales later.
 
 In our example, up top, we have these nice labels and tick marks. This is
 something D3 can do for us. We can build an axis, and apply it to a scale. We
-say, "hey, I want to build an axis that".
+say, "hey, I want to build an axis that labels the plot".
 
-<div class="example-row-2">
+<div class="example-row-1">
+  <iframe class="example"
+    height="50"
+    src="{{ "/examples/axes" | prepend: site.baseurl }}">
+  </iframe>
   <div class="example">
     {% highlight javascript %}
       {% include examples/axes.js %}
     {% endhighlight %}
   </div>
-
-  <iframe class="example"
-    height="180"
-    src="{{ "/examples/axes" | prepend: site.baseurl }}">
-  </iframe>
 </div>
 
 D3's axes are really powerful! Notice how we built it using <kbd>Date</kbd>
