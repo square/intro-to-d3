@@ -1,24 +1,85 @@
+<!-- This creates a svg area, if you draw outside
+     of these dimensions (350x160), it will not be
+     shown.
+   -->
 <svg width="350" height="160">
-  <!-- 60px x 10px margin -->
+  <!-- Remember, SVG uses 0,0 in the top left corner
+       of the drawable area, so push it with `translate`
+       right 60px and down 10px to create a nice margin.
+    -->
   <g class="layer" transform="translate(60,10)">
-    <!-- cx = 270px * ($X / 3)
-                ^      ^   ^
-    width of graph  x-value max(x)
+    <!-- We will now plot circles (size 5 radius dots
+         on the chart) in the svg area. We use some math
+         to figure out where to position them.
 
-          cy = 120px - (($Y / 80) * 120px)
-                 ^       ^     ^       ^
-      top of graph   y-value  max(y)  scale -->
+         Translation logic:
+
+         For the x-axis of each dot to plot: move cx over
+         by the porportional amount of 270 to fit the 4 data
+         points.
+
+         cx = 270px   *   ($X  /  3)
+                ^[1]        ^[2]  ^[3]
+
+         [1] width of graph = we choose 270 since it fits
+             nicely in our 350-60=290 remaining x-axis
+             canvas, and is divisible by N_of_points-1 (3).
+         [2] the current x-value to translate to 'cx'.
+         [3] max(x) = using 0 indexing with 4 x-values
+             [0,1,2,3], 3 is the max x-value.
+         e.g. Calculate cx of 2014-02-01 (the 2nd point)
+             cx = 270 * (1/3) = 90.
+
+
+         For the y-axis: translate the "upside down" y-down
+         into the data's "y-up" scale, and scale 0-80 into
+         0-120. Subtract a proportional offset away from the
+         total possible offset of 120.
+
+         cy = 120px   -   (($Y  /  80)  *  120px)
+                ^[1]         ^[2]  ^[3]    ^[4]
+
+         [1] top of graph = we choose to make the plot 120 so
+             it can upscale our points ranging from 0-80.
+             120 fits nicely in our overall height 160, less
+             the 10 top margin already translated down.
+         [2] y-value = the current y-value to plot in the data:
+             [10, 20, 40, 80].
+         [3] max(y) = the max y-value in the data, which when
+             converting from "y-up" to "y-down", should result
+             in a "y-down" SVG offset of 0 (top of the chart).
+             Thus we subtract from the top of the scale the
+             proportional offset upsampled from a max of 80 to
+             a new max of 120.
+         [4] scale = this matches [1] for the reason in [3].
+
+         e.g. Calculate cy of 2014-02-01, 20 dollars.
+             cy = 120 - (20 / 80) * 120 = 90.
+
+    -->
     <circle r="5" cx="0"   cy="105" />
+    <!-- Below is the example cx, cy as translated above. -->
     <circle r="5" cx="90"  cy="90"  />
     <circle r="5" cx="180" cy="60"  />
     <circle r="5" cx="270" cy="0"   />
 
     <g class="y axis">
       <line x1="0" y1="0" x2="0" y2="120" />
+      <!-- The below negative x-offset moves us back outside of
+           this 'g' tag's offset of +60. Below will be absolutely
+           positioned 10 away from the left edge of the svg area.
+
+           The y=105, because 120 - 10/80*120 = 105.
+        -->
       <text x="-40" y="105" dy="5">$10</text>
       <text x="-40" y="0"   dy="5">$80</text>
     </g>
+       <!-- Move down 120 from the 'g' above (so total down 130)
+       from the top of the svg area. -->
     <g class="x axis" transform="translate(0, 120)">
+      <!-- Length of line (x2-x1)=270 because that is the size
+           decided upon of the plot width as described above in
+           cx calculation. -->
       <line x1="0" y1="0" x2="270" y2="0" />
       <text x="-30"   y="20">January 2014</text>
       <text x="240" y="20">April</text>
