@@ -12,7 +12,7 @@
       {% include examples/data.js %}
 
       var x = d3.time.scale()
-          .range([50, 250])
+          .range([50, 300])
           .domain(d3.extent(data, function(d) { return new Date(d.date); }));
 
       {% include examples/axes.js %}

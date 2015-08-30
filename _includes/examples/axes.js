@@ -5,8 +5,8 @@ var xAxis = d3.svg.axis()
 
 var svg = d3.select('body')
   .append('svg')        // create an <svg> element
-    .attr('width', 300) // set its dimentions
-    .attr('height', 150);
+    .attr('width', 350) // set its dimentions
+    .attr('height', 50);
 
 svg.append('g')            // create a <g> element
   .attr('class', 'x axis') // specify classes
