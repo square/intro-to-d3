@@ -96,14 +96,14 @@ We'll need to manually write out each point. Transform attributes are inherited
 by child elements, so we can use `<g>` tags to move entire groups, such as the
 axes, or even offset the entire graph by a margin.
 
-<div class="example-row-2">
+<div class="example-row-1">
+  <div class="example">
+    {% include examples/scatterplot.svg %}
+  </div>
   <div class="example">
     {% highlight html %}
       {% include examples/scatterplot.svg %}
     {% endhighlight %}
-  </div>
-  <div class="example">
-    {% include examples/scatterplot.svg %}
   </div>
 </div>
 
