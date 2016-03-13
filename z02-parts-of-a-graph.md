@@ -235,7 +235,7 @@ say, "hey, I want to build an axis that".
 
   <iframe class="example"
     height="180"
-    src="{{ "/examples/axes" | prepend: site.baseurl }}">
+    src="{{ "/examples/axes/" | prepend: site.baseurl }}">
   </iframe>
 </div>
 
