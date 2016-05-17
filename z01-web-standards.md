@@ -148,9 +148,9 @@ SVG (Scalable Vector Graphics) is an XML format used for
 drawing. You can think of SVG in a lot of the same terms as the DOM -- there are elements with parents and
 children and attributes, and you can respond to the same mouse/touch events.
 
-Even CSS styles can apply to SVG elements. The CSS attribute names for SVG
+Even CSS styles and selectors can apply to SVG elements. The CSS attribute names for SVG
 come from the SVG definition, so they are sometimes different from their
-HTML brethren.
+HTML brethren. (For example, to change the background color of a div to red you would set its "background-color" to red but to get the same effect on an SVG rectangle you would instead use the attribute "fill" since an SVG rect doesn't respond to background-color for styling.)
 
 SVG defines tags for lots of basic shapes, like `<rect>` and `<circle>` and `<line>`.
 
