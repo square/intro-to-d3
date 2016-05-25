@@ -98,8 +98,8 @@ axes, or even offset the entire graph by a margin.
 
 <div class="example-row-2">
   <div class="example">
-    {% highlight html %}
-      {% include examples/scatterplot.svg %}
+    {% highlight html
+      %}{% include examples/scatterplot.svg %}
     {% endhighlight %}
   </div>
   <div class="example">
@@ -126,8 +126,8 @@ often the data is homogenous arrays.
 
 <div class="example-row-1">
   <div class="example">
-    {% highlight javascript %}
-      {% include examples/data.js %}
+    {% highlight javascript
+      %}{% include examples/data.js %}
 d3.min(numbers);
 // 1
     {% endhighlight %}
@@ -228,8 +228,8 @@ say, "hey, I want to build an axis that".
 
 <div class="example-row-2">
   <div class="example">
-    {% highlight javascript %}
-      {% include examples/axes.js %}
+    {% highlight javascript
+      %}{% include examples/axes.js %}
     {% endhighlight %}
   </div>
 

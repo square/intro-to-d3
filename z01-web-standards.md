@@ -26,8 +26,8 @@ The basic outline of an HTML page is something like this:
 
 <div class="example-row-2">
   <div class="example">
-    {% highlight html %}
-      {% include examples/html.html %}
+    {% highlight html
+      %}{% include examples/html.html %}
     {% endhighlight %}
   </div>
 
@@ -48,14 +48,14 @@ Here are some simple CSS rules and how they apply.
 
 <div class="example-row-3">
   <div class="example">
-    {% highlight html %}
-      {% include examples/css.html %}
+    {% highlight html
+      %}{% include examples/css.html %}
     {% endhighlight %}
   </div>
 
   <div class="example">
-    {% highlight css %}
-      {% include examples/css.css %}
+    {% highlight css
+      %}{% include examples/css.css %}
     {% endhighlight %}
   </div>
 
@@ -77,8 +77,8 @@ Here are some examples of accessing the DOM programatically.
 
 <div class="example-row-3">
   <div class="example">
-    {% highlight html %}
-      {% include examples/css.html %}
+    {% highlight html
+      %}{% include examples/css.html %}
     {% endhighlight %}
   </div>
 
@@ -120,14 +120,14 @@ events. D3 has some nice helper methods for working with events as well.
 
 <div class="example-row-3">
   <div class="example">
-    {% highlight html %}
-      {% include examples/dom.html %}
+    {% highlight html
+      %}{% include examples/dom.html %}
     {% endhighlight %}
   </div>
 
   <div class="example">
-    {% highlight javascript %}
-      {% include examples/dom.js %}
+    {% highlight javascript
+      %}{% include examples/dom.js %}
     {% endhighlight %}
   </div>
 
@@ -157,14 +157,14 @@ SVG defines tags for lots of basic shapes, like `<rect>` and `<circle>` and `<li
 
 <div class="example-row-3">
   <div class="example">
-    {% highlight html %}
-      {% include examples/svg1.svg %}
+    {% highlight html
+      %}{% include examples/svg1.svg %}
     {% endhighlight %}
   </div>
 
   <div class="example">
-    {% highlight css %}
-      {% include examples/svg1.css %}
+    {% highlight css
+      %}{% include examples/svg1.css %}
     {% endhighlight %}
   </div>
 
@@ -184,8 +184,8 @@ on the styling.
 
 <div class="example-row-2">
   <div class="example">
-    {% highlight html %}
-      {% include examples/svg2.svg %}
+    {% highlight html
+      %}{% include examples/svg2.svg %}
     {% endhighlight %}
   </div>
 
