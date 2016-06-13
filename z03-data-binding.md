@@ -308,7 +308,7 @@ nextrects.enter().append('rect'); // adds one element
 
 ## Transitions `selection.transition()`
 
-The key function <isindex></isindex> also important in case parts of our objects change -- if we
+The key function is also important in case parts of our objects change -- if we
 change a count, then we can update the appropriate element without having to
 delete and re-add the element, we can update it in place.
 
