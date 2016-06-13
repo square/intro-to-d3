@@ -54,7 +54,7 @@ var sales = [
 </div>
 
 And we want to map these to points on a scatterplot. We know we want each object
-in this array into of these to turn into `<rect>` tag, inside of our `<svg>`
+in this array to turn into a `<rect>` tag, inside of our `<svg>`
 below:
 
 <div class="example-row-2">
@@ -106,7 +106,7 @@ none and we have 4 new data points, so obviously the right thing to do is to
 add a new `<rect>` for each data point.
 
 The way D3 looks at this is a more subtle: we want to add a `<rect>`
-per data point, *but only for the new points the last data join*. Since this
+per data point, *but only for the new points since the last data join*. Since this
 is the first data binding (there are no rects currently), everything is new,
 it's straightforward to add new points. It's important to keep in mind that for
 the next selection, things will be more complex since there will already be
@@ -115,8 +115,7 @@ rects.
 The part of a D3 selection that represents these element-less data-points
 is `selection.enter()`;
 
-<div class="example-row-1">
-  <div class="example">
+<div class="example-row-1"> <div class="example">
     {% highlight javascript %}
 var newRects = rects.enter();
     {% endhighlight %}
@@ -309,7 +308,7 @@ nextrects.enter().append('rect'); // adds one element
 
 ## Transitions `selection.transition()`
 
-The key function also important in case parts of our objects change -- if we
+The key function <isindex></isindex> also important in case parts of our objects change -- if we
 change a count, then we can update the appropriate element without having to
 delete and re-add the element, we can update it in place.
 
