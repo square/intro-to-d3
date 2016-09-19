@@ -136,10 +136,10 @@ attribute editing helpers to configure each circle per its data point.
 var maxCount = d3.max(sales, function(d, i) {
   return d.count;
 });
-var x = d3.scale.linear()
+var x = d3.scaleLinear()
   .range([0, 300])
   .domain([0, maxCount]);
-var y = d3.scale.ordinal()
+var y = d3.scaleOrdinal()
   .rangeRoundBands([0, 75])
   .domain(sales.map(function(d, i) {
     return d.product;
@@ -164,7 +164,7 @@ newRects.append('rect')
     </div>
 
     <p>
-      The <kbd>d3.scale.ordinal()</kbd> helps us create buckets for each
+      The <kbd>d3.scaleOrdinal()</kbd> helps us create buckets for each
       element. In this case, that's one per product.
     </p>
     <p>

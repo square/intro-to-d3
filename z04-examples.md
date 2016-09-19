@@ -45,13 +45,13 @@ var sales = [
 </div>
 
 We want each product to be represented as a pie slice in our pie chart, which
-involves calculating the associated angles. We'll use the `d3.layout.pie` helper
+involves calculating the associated angles. We'll use the `d3.pie` helper
 for that:
 
 <div class="ex-exec example-row-1">
   <div class="example example-source">
     {% highlight javascript %}
-var pie = d3.layout.pie()
+var pie = d3.pie()
   .value(function(d) { return d.count })
 
 var slices = pie(sales);
@@ -81,19 +81,19 @@ var slices = pie(sales);
 </div>
 
 Now we have our data in angles (radians), so we can turn them into something
-visual. The next tool D3 gives us is the `d3.svg.arc` which helps to create
+visual. The next tool D3 gives us is the `d3.arc` which helps to create
 SVG `<path>` tags for arcs. This is where we provide all the information relevant
 to actually drawing, such as the radius size.
 
 <div class="ex-exec example-row-2">
   <div class="example example-source">
     {% highlight javascript %}
-var arc = d3.svg.arc()
+var arc = d3.arc()
   .innerRadius(0)
   .outerRadius(50);
 
 // helper that returns a color based on an ID
-var color = d3.scale.category10();
+var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 var svg = d3.select('svg.pie');
 var g = svg.append('g')
@@ -273,8 +273,8 @@ layer, `stacked[2]`, now looks like this:
   </div>
 </div>
 
-Let's get to drawing! We'll bring back our good friends `d3.scale.linear` and
-`d3.time.scale`.
+Let's get to drawing! We'll bring back our good friends `d3.scaleLinear` and
+`d3.scaleTime`.
 
 <div class="ex-exec example-row-2">
   <div class="example example-source">
@@ -292,11 +292,11 @@ var maxY = d3.max(stacked, function(d) {
   });
 });
 
-var y = d3.scale.linear()
+var y = d3.scaleLinear()
   .range([height, 0])
   .domain([0, maxY]);
 
-var x = d3.time.scale()
+var x = d3.scaleTime()
   .range([0, width])
   .domain(d3.extent(sales[0].values, function(d) {
     // normally we would check across all our layers,
