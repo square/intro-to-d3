@@ -390,23 +390,22 @@ function toggle() {
 
 function update() {
   var rects = svg.selectAll('rect')
-    .data(sales, function(d, i) {
-      return d.product
-    });
+    .data(sales, function(d, i) { return d.product });
 
-  // When we enter, we just want to create the rect,
-  rects.enter()
-    .append('rect');
+  // When we enter, we add the DOM element
+  // and set up the things that won't change
+  var enterRects = rects.enter()
+    .append('rect')
+      .attr('x', x(0))
+      .attr('y', function(d, i) {
+        return y(d.product);
+      })
+      .attr('height', y.bandwidth())
 
-  // We configure the rects here so the values
-  // apply to it applies to both new and existing
-  // rects
-  rects
-    .attr('x', x(0))
-    .attr('y', function(d, i) {
-      return y(d.product);
-    })
-    .attr('height', y.rangeBand())
+  // "rects" represents the update selection, we need to
+  // manually merge it with the enter selection to update
+  // all rects at the same time
+  rects.merge(enterRects)
     .attr('width', function(d, i) {
       return x(d.count);
     });
@@ -440,24 +439,27 @@ function toggle() {
 
 function update() {
   var rects = svg.selectAll('rect')
-    .data(sales, function(d, i) {
-      return d.product
-    });
+    .data(sales, function(d, i) { return d.product });
 
-  rects.enter()
-    .append('rect');
+  var enterRects = rects.enter()
+    .append('rect')
+      .attr('x', x(0))
+      .attr('y', function(d, i) {
+        return y(d.product);
+      })
+      .attr('height', y.bandwidth())
+      .attr('width', function(d, i) {
+        return x(d.count);
+      });
 
-  rects.transition() // NEW!
-    .duration(1000)  // also NEW!
-    .attr('x', x(0))
-    .attr('y', function(d, i) {
-      return y(d.product);
-    })
-    .attr('height', y.rangeBand())
-    .attr('width', function(d, i) {
-      return x(d.count);
-    });
+  rects.merge(enterRects)
+    .transition() // NEW
+    .duration(1000) // Also NEW
+      .attr('width', function(d, i) {
+        return x(d.count);
+      });
 };
+
     {% endhighlight %}
   </div>
 
