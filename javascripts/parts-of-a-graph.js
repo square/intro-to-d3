@@ -37,19 +37,15 @@
   var width = 350,
       height = 120,
       margin = { top: 10, right: 50, bottom: 30, left: 50 },
-      x = d3.time.scale()
+      x = d3.scaleTime()
           .range([0, width])
           .domain(d3.extent(data, getDate)),
-      y = d3.scale.linear()
+      y = d3.scaleLinear()
           .range([height, 0])
           .domain([0, d3.max(data, getAmount)]),
-      xAxis = d3.svg.axis()
-               .scale(x)
-               .orient('bottom')
+      xAxis = d3.axisBottom(x)
                .ticks(3),
-      yAxis = d3.svg.axis()
-              .scale(y)
-              .orient('left')
+      yAxis = d3.axisLeft(y)
               .tickFormat(d3.format('$,d'))
               .ticks(5);
 
@@ -69,7 +65,7 @@
     .attr('class', 'y axis')
     .call(yAxis);
 
-  var line = d3.svg.line()
+  var line = d3.line()
       .x(function(d) { return x(getDate(d)) })
       .y(function(d) { return y(getAmount(d)) })
 
