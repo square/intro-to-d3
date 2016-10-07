@@ -1,7 +1,6 @@
-var xAxis = d3.svg.axis()
-  .scale(x)         // x is the d3.time.scale()
-  .orient('bottom') // the ticks go below the graph
-  .ticks(4);        // specify the number of ticks
+// x is the d3.scaleTime()
+var xAxis = d3.axisBottom(x)
+  .ticks(4); // specify the number of ticks
 
 var svg = d3.select('body')
   .append('svg')        // create an <svg> element

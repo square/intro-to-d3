@@ -45,13 +45,13 @@ var sales = [
 </div>
 
 We want each product to be represented as a pie slice in our pie chart, which
-involves calculating the associated angles. We'll use the `d3.layout.pie` helper
+involves calculating the associated angles. We'll use the `d3.pie` helper
 for that:
 
 <div class="ex-exec example-row-1">
   <div class="example example-source">
     {% highlight javascript %}
-var pie = d3.layout.pie()
+var pie = d3.pie()
   .value(function(d) { return d.count })
 
 var slices = pie(sales);
@@ -81,19 +81,19 @@ var slices = pie(sales);
 </div>
 
 Now we have our data in angles (radians), so we can turn them into something
-visual. The next tool D3 gives us is the `d3.svg.arc` which helps to create
+visual. The next tool D3 gives us is the `d3.arc` which helps to create
 SVG `<path>` tags for arcs. This is where we provide all the information relevant
 to actually drawing, such as the radius size.
 
 <div class="ex-exec example-row-2">
   <div class="example example-source">
     {% highlight javascript %}
-var arc = d3.svg.arc()
+var arc = d3.arc()
   .innerRadius(0)
   .outerRadius(50);
 
 // helper that returns a color based on an ID
-var color = d3.scale.category10();
+var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 var svg = d3.select('svg.pie');
 var g = svg.append('g')
@@ -133,10 +133,10 @@ svg.append('g')
       Again, we snuck in a new helper, and it's another type of ordinal scale.
     </div>
 
-    The <kbd>d3.scale.category10</kbd> helper gives us back a function. This function
-    takes in values (typically IDs) and gives back a color. The same ID gets the
-    same color, and it will rotate through 10 colors that are pretty easy to tell
-    apart.
+    The <kbd>d3.scaleOrdinal</kbd> helper gives us back a function. This function
+    takes in values (typically IDs) and gives back a value in its domain. The same ID gets the
+    same color, and it will rotate through its domain.
+    apart. We initalize it with <kbd>d3.schemeCategory10</kbd> which is a list of10 colors that are pretty easy to tell apart.
   </div>
 </div>
 
@@ -199,43 +199,22 @@ Transformed into a dense array, our data looks like this:
   <div class="example example-source">
     {% highlight javascript %}
 var sales = [
-  {
-    name: "Hoodie",
-    values: [
-      { count: 6, date: "2014-01-01" },
-      { count: 7, date: "2014-01-02" },
-      { count: 8, date: "2014-01-03" }
-    ]
-  },
-  {
-    name: "Jacket",
-    values: [
-      { count: 2, date: "2014-01-01" },
-      { count: 5, date: "2014-01-02" },
-      { count: 7, date: "2014-01-03" }
-    ]
-  },
-  {
-    name: "Snuggie",
-    values: [
-      { count: 3, date: "2014-01-01" },
-      { count: 2, date: "2014-01-02" },
-      { count: 3, date: "2014-01-03" }
-    ]
-  }
+  { date: "2014-01-01", hoodies: 6, jackets: 2, snuggies: 3 },
+  { date: "2014-01-02", hoodies: 7, jackets: 5, snuggies: 2 },
+  { date: "2014-01-03", hoodies: 8, jackets: 7, snuggies: 3 }
 ];
     {% endhighlight %}
   </div>
 </div>
 
-Now we can take advantage of the `d3.layout.stack` to do the work of stacking
+Now we can take advantage of the `d3.stack` to do the work of stacking
 our layers on top each other. While normally a bar graph would have one `y`
 value, a stacked one has two:
 
-  - `y0` where a segment starts ("baseline")
-  - `y` the height of the segment
+  - where a segment starts ("baseline")
+  - where the segment ends
 
-For the first layer stacked bar chart (at the bottom), `y0` is typically 0.
+For the first layer stacked bar chart (at the bottom), the baseline is typically 0.
 It can be other values for things like [streamgraphs][streamgraph], which are
 a whole other topic.
 
@@ -244,37 +223,51 @@ a whole other topic.
 <div class="ex-exec example-row-1">
   <div class="example example-source">
     {% highlight javascript %}
-var stack = d3.layout.stack()
-  .values(function(d) { return d.values; })
-  .x(function(d) { return new Date(Date.parse(d.date)); })
-  .y(function(d) { return d.count; });
+var stack = d3.stack()
+  .keys(["hoodies", "jackets", "snuggies"])
 
 var stacked = stack(sales);
     {% endhighlight %}
   </div>
 </div>
 
-Now, `stacked` will contain the data in `sales` plus `y` and `y0`,
-which will come in handy when it's time to draw these. For examples, the last
-layer, `stacked[2]`, now looks like this:
+Now, `stacked` will be a set of nested arrays containing the hights of the data in sales, stacked, which will come in handy when it's time to draw these. For examples, the stacked data now looks like this:
 
 <div class="example-row-1">
   <div class="example example-source">
     {% highlight javascript %}
-{
-  name: "Snuggie",
-  values: [
-    { count: 3, date: "2014-01-01", y: 3, y0: 8 },
-    { count: 2, date: "2014-01-02", y: 2, y0: 12 },
-    { count: 3, date: "2014-01-03", y: 3, y0: 15 }
-  ]
-}
+stacked
+[
+  [[0, 6],  [0, 7],   [0, 8  ]],
+  [[6, 8],  [7, 12],  [8, 15 ]],
+  [[8, 11], [12, 14], [15 18 ]]
+]
+   {% endhighlight %}
+  </div>
+</div>
+
+But the data is not a plain array! It also has a few useful properties. The "rows" have `key` and `index` and the computed start/end arrays also have `data` -- the original data.
+
+<div class="example-row-1">
+  <div class="example example-source">
+    {% highlight javascript %}
+stacked
+// [Array[3], Array[3], Array[3]]
+stacked[0]
+// [Array[2], Array[2], Array[2]]
+Object.keys(stacked[0])
+// ["0", "1", "2", "key", "index"]
+stacked[0].key
+// "hoodies"
+stacked[0][0].data
+// {date: "2014-01-01", hoodies: 6, jackets: 2, snuggies: 3}
     {% endhighlight %}
   </div>
 </div>
 
-Let's get to drawing! We'll bring back our good friends `d3.scale.linear` and
-`d3.time.scale`.
+
+Ok so let's get to drawing! We'll bring back our good friends `d3.scaleLinear` and
+`d3.scaleTime`.
 
 <div class="ex-exec example-row-2">
   <div class="example example-source">
@@ -283,56 +276,52 @@ var height = 200;
 var width = 200;
 
 // we need to calculate the maximum y-value
-// across all our layers, and for each data point,
-// we need to combine the start `d.y0` and the
-// height `d.y` to get highest point
+// across all our layers, so we find the biggest
+// end value
 var maxY = d3.max(stacked, function(d) {
-  return d3.max(d.values, function(d) {
-    return d.y0 + d.y;
+  return d3.max(d, function(d) {
+    return d[1];
   });
 });
 
-var y = d3.scale.linear()
+var y = d3.scaleLinear()
   .range([height, 0])
   .domain([0, maxY]);
 
-var x = d3.time.scale()
+var x = d3.scaleTime()
   .range([0, width])
-  .domain(d3.extent(sales[0].values, function(d) {
-    // normally we would check across all our layers,
-    // but we can "cheat" and use `sales[0].values`
-    // since we know all layers have the same domain
+  .domain(d3.extent(sales, function(d) {
     return new Date(Date.parse(d.date));
   }))
   .nice(4);
 
 var svg = d3.select('svg.stack');
-var color = d3.scale.category10();
+var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 // bind a <g> tag for each layer
 var layers = svg.selectAll('g.layer')
-  .data(stacked, function(d) { return d.name; })
+  .data(stacked, function(d) { return d.key; })
     .enter()
       .append('g')
         .attr('class', 'layer')
-        .attr('fill', function(d) { return color(d.name); })
+        .attr('fill', function(d) { return color(d.key); })
 
 // bind a <rect> to each value inside the layer
 layers.selectAll('rect')
-  .data(function(d) { return d.values; })
+  .data(function(d) { return d; })
   .enter()
     .append('rect')
-      .attr('x', function(d) {return x(new Date(Date.parse(d.date))); })
+      .attr('x', function(d) { return x(new Date(Date.parse(d.data.date))); })
       .attr('width', width / 3)
       .attr('y', function(d) {
         // remember that SVG is y-down while our graph is y-up!
-        // here, we set the top-left of this bar segment
-        return y(d.y0 + d.y);
+        // here, we set the top-left of this bar segment to the
+        // larger value of the pair
+        return y(d[1]);
       }).attr('height', function(d) {
         // since we are drawing our bar from the top downwards,
-        // the length of the bar is the distance from the bottom
-        // so we subtract from `height`
-        return height - y(d.y)
+        // the length of the bar is the distance between our points
+        return y(d[0]) - y(d[1]);
       });
     {% endhighlight %}
   </div>

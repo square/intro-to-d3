@@ -163,7 +163,7 @@ Here is how we set up the y-scale for the above money example:
 <div class="example-row-1">
   <div class="example">
     {% highlight javascript %}
-var y = d3.scale.linear()
+var y = d3.scaleLinear()
   .domain([0, 80]) // $0 to $80
   .range([200, 0]); // Seems backwards because SVG is y-down
     {% endhighlight %}
@@ -203,7 +203,7 @@ We can even do the same things with dates!
 <div class="example-row-1">
   <div class="example">
     {% highlight javascript %}
-var x = d3.time.scale()
+var x = d3.scaleTime()
     .domain([
       new Date(Date.parse('2014-01-01')),
       new Date(Date.parse('2014-04-01'))

@@ -36,11 +36,11 @@
   var width = 300,
       height = 75;
 
-  var x = d3.scale.linear()
+  var x = d3.scaleLinear()
     .range([0, 300])
     .domain([0, maxCount]);
-  var y = d3.scale.ordinal()
-    .rangeRoundBands([0, height])
+  var y = d3.scaleBand()
+    .range([0, height])
     .domain(sales.map(function(d, i) {
       return d.product;
     }));
@@ -60,17 +60,20 @@
       var rects = svg.selectAll('rect')
         .data(sales, function(d, i) { return d.product });
 
-      // When we enter, we only want to add the rect
-      rects.enter()
-        .append('rect');
+      // When we enter, we add the DOM element
+      // and set up the things that won't change
+      var enterRects = rects.enter()
+        .append('rect')
+          .attr('x', x(0))
+          .attr('y', function(d, i) {
+            return y(d.product);
+          })
+          .attr('height', y.bandwidth())
 
-      // The default selection is the update selection
-      rects
-        .attr('x', x(0))
-        .attr('y', function(d, i) {
-          return y(d.product);
-        })
-        .attr('height', y.rangeBand())
+      // "rects" represents the update selection, we need to
+      // manually merge it with the enter selection to update
+      // all rects at the same time
+      rects.merge(enterRects)
         .attr('width', function(d, i) {
           return x(d.count);
         });
@@ -94,20 +97,24 @@
       var rects = svg.selectAll('rect')
         .data(sales, function(d, i) { return d.product });
 
-      // When we enter, we only want to add the rect
-      rects.enter()
-        .append('rect');
+      // When we enter, we add the DOM element
+      // and set up the things that won't change
+      var enterRects = rects.enter()
+        .append('rect')
+          .attr('x', x(0))
+          .attr('y', function(d, i) {
+            return y(d.product);
+          })
+          .attr('height', y.bandwidth())
+          .attr('width', function(d, i) {
+            return x(d.count);
+          });
 
-      rects.transition()
+      rects.merge(enterRects).transition()
         .duration(1000)
-        .attr('x', x(0))
-        .attr('y', function(d, i) {
-          return y(d.product);
-        })
-        .attr('height', y.rangeBand())
-        .attr('width', function(d, i) {
-          return x(d.count);
-        });
+          .attr('width', function(d, i) {
+            return x(d.count);
+          });
     };
 
     update();
