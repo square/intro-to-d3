@@ -1,0 +1,19 @@
+/* Applied to all <p> tags */
+p {
+  color: blue;
+}
+
+/* Applied to all tags with the class "red" */
+.red {
+  background: red;
+}
+
+/* Applied to the tag with the id "some-id" */
+#some-id {
+  font-style: italic;
+}
+
+/* Applied only to <p> tags that are inside <li> tags */
+li p {
+  color: #0C0;
+}

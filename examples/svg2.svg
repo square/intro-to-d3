@@ -1,0 +1,19 @@
+<svg width="300" height="180">
+  <g transform="translate(5, 15)">
+    <text x="0" y="0">Howdy!</text>
+  </g>
+
+  <g transform="translate(5, 55)">
+    <!-- M: move to (jump)
+         L: line to
+         Q: curve to (quadratic) -->
+    <path d="M0,50 L50,0 Q100,0 100,50"
+      fill="none" stroke-width="3" stroke="black" />
+  </g>
+
+  <g transform="translate(5, 105)">
+    <!-- C: curve to (cubic)
+         Z: close shape -->
+    <path d="M0,100 C0,0 25,0 125,100 Z" fill="black" />
+  </g>
+</svg>

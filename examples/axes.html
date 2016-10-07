@@ -1,0 +1,21 @@
+---
+---
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
+    <link rel="stylesheet" href="{{ "/css/graph.css" | prepend: site.baseurl }}">
+  </head>
+  <body>
+    <script type="text/javascript"
+      src="{{ "/javascripts/d3.v4.min.js" | prepend: site.baseurl }}"></script>
+    <script type="text/javascript">
+      {% include examples/data.js %}
+
+      var x = d3.scaleTime()
+          .range([50, 250])
+          .domain(d3.extent(data, function(d) { return new Date(d.date); }));
+
+      {% include examples/axes.js %}
+    </script>
+  </body>
+</html>
