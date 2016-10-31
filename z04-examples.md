@@ -32,25 +32,18 @@ Let's start out by walking through using D3 to draw a simple pie chart.
 
 First we get our source data:
 
-<div class="ex-exec example-row-1">
-  <div class="example example-source">
-    {% highlight javascript %}
+```js
 var sales = [
   { product: 'Hoodie',  count: 12 },
   { product: 'Jacket',  count: 7 },
   { product: 'Snuggie', count: 6 },
 ];
-    {% endhighlight %}
-  </div>
-</div>
-
+```
 We want each product to be represented as a pie slice in our pie chart, which
 involves calculating the associated angles. We'll use the `d3.pie` helper
 for that:
 
-<div class="ex-exec example-row-1">
-  <div class="example example-source">
-    {% highlight javascript %}
+```js
 var pie = d3.pie()
   .value(function(d) { return d.count })
 
@@ -76,18 +69,14 @@ var slices = pie(sales);
     value: 6
   }
 ]
-    {% endhighlight %}
-  </div>
-</div>
+```
 
 Now we have our data in angles (radians), so we can turn them into something
 visual. The next tool D3 gives us is the `d3.arc` which helps to create
 SVG `<path>` tags for arcs. This is where we provide all the information relevant
 to actually drawing, such as the radius size.
 
-<div class="ex-exec example-row-2">
-  <div class="example example-source">
-    {% highlight javascript %}
+```js
 var arc = d3.arc()
   .innerRadius(0)
   .outerRadius(50);
@@ -121,10 +110,9 @@ svg.append('g')
           .text(function(d) { return '• ' + d.data.product; })
           .attr('fill', function(d) { return color(d.data.product); })
           .attr('y', function(d, i) { return 20 * (i + 1); })
-    {% endhighlight %}
-  </div>
+```
 
-  <div class="example">
+```html
     <div>
       <svg class="pie" width="300" height="100"></svg>
     </div>
@@ -137,8 +125,7 @@ svg.append('g')
     takes in values (typically IDs) and gives back a value in its domain. The same ID gets the
     same color, and it will rotate through its domain.
     apart. We initalize it with <kbd>d3.schemeCategory10</kbd> which is a list of10 colors that are pretty easy to tell apart.
-  </div>
-</div>
+```
 
 ## Stacked Bars
 
@@ -153,8 +140,7 @@ of the next layer.
 
 Let's start we have sales of our products over multiple days.
 
-<div class="ex-exec example-row-1">
-  <div class="example">
+```html
     <table class="data-table">
       <thead>
         <tr>
@@ -190,22 +176,17 @@ Let's start we have sales of our products over multiple days.
         </tr>
       </tbody>
     </table>
-  </div>
-</div>
+```
 
 Transformed into a dense array, our data looks like this:
 
-<div class="ex-exec example-row-1">
-  <div class="example example-source">
-    {% highlight javascript %}
+```js
 var sales = [
   { date: "2014-01-01", hoodies: 6, jackets: 2, snuggies: 3 },
   { date: "2014-01-02", hoodies: 7, jackets: 5, snuggies: 2 },
   { date: "2014-01-03", hoodies: 8, jackets: 7, snuggies: 3 }
 ];
-    {% endhighlight %}
-  </div>
-</div>
+```
 
 Now we can take advantage of the `d3.stack` to do the work of stacking
 our layers on top each other. While normally a bar graph would have one `y`
@@ -220,37 +201,28 @@ a whole other topic.
 
 [streamgraph]: http://bl.ocks.org/mbostock/4060954
 
-<div class="ex-exec example-row-1">
-  <div class="example example-source">
-    {% highlight javascript %}
+```js
 var stack = d3.stack()
   .keys(["hoodies", "jackets", "snuggies"])
 
 var stacked = stack(sales);
-    {% endhighlight %}
-  </div>
-</div>
+```
 
 Now, `stacked` will be a set of nested arrays containing the hights of the data in sales, stacked, which will come in handy when it's time to draw these. For examples, the stacked data now looks like this:
 
-<div class="example-row-1">
-  <div class="example example-source">
-    {% highlight javascript %}
+```js
 stacked
 [
   [[0, 6],  [0, 7],   [0, 8  ]],
   [[6, 8],  [7, 12],  [8, 15 ]],
   [[8, 11], [12, 14], [15 18 ]]
 ]
-   {% endhighlight %}
-  </div>
-</div>
+```
 
 But the data is not a plain array! It also has a few useful properties. The "rows" have `key` and `index` and the computed start/end arrays also have `data` -- the original data.
 
-<div class="example-row-1">
-  <div class="example example-source">
-    {% highlight javascript %}
+
+```js
 stacked
 // [Array[3], Array[3], Array[3]]
 stacked[0]
@@ -261,17 +233,13 @@ stacked[0].key
 // "hoodies"
 stacked[0][0].data
 // {date: "2014-01-01", hoodies: 6, jackets: 2, snuggies: 3}
-    {% endhighlight %}
-  </div>
-</div>
+```
 
 
 Ok so let's get to drawing! We'll bring back our good friends `d3.scaleLinear` and
 `d3.scaleTime`.
 
-<div class="ex-exec example-row-2">
-  <div class="example example-source">
-    {% highlight javascript %}
+```js
 var height = 200;
 var width = 200;
 
@@ -323,10 +291,9 @@ layers.selectAll('rect')
         // the length of the bar is the distance between our points
         return y(d[0]) - y(d[1]);
       });
-    {% endhighlight %}
-  </div>
+```
 
-  <div class="example">
+```html
     <div>
       <svg class="stack" width="300" height="250"></svg>
     </div>
@@ -337,8 +304,7 @@ layers.selectAll('rect')
     not in SVG's coordinate system. We have to deal with the same confusing
     <a href="{{ "/parts-of-a-graph/#the-scale" | prepend: site.baseurl }}">Y-axis
     coordinate flip</a>.</p>
-  </div>
-</div>
+```
 
 ## Onward!
 
@@ -364,5 +330,3 @@ Happy visualizing!
 [d3-wiki]: https://github.com/mbostock/d3/wiki
 [d3-api-reference]: https://github.com/mbostock/d3/wiki/API-Reference
 [d3-examples]: http://bl.ocks.org/mbostock
-
-<script type="text/javascript" src="{{ "/javascripts/examples.js" | prepend: site.baseurl }}"></script>
