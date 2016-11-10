@@ -139,8 +139,8 @@ var maxCount = d3.max(sales, function(d, i) {
 var x = d3.scaleLinear()
   .range([0, 300])
   .domain([0, maxCount]);
-var y = d3.scaleOrdinal()
-  .rangeRoundBands([0, 75])
+var y = d3.scaleBand()
+  .range([0, 75])
   .domain(sales.map(function(d, i) {
     return d.product;
   }));
@@ -150,7 +150,7 @@ newRects.append('rect')
   .attr('y', function(d, i) {
     return y(d.product);
   })
-  .attr('height', y.rangeBand())
+  .attr('height', y.bandwidth())
   .attr('width', function(d, i) {
     return x(d.count);
   });
@@ -159,18 +159,18 @@ newRects.append('rect')
 
   <div class="example">
     <div class="info">
-      We're getting a little sneaky here! We're introducing an <em>ordinal</em>
+      We're getting a little sneaky here! We're introducing a <em>band</em>
       scale, one that's discrete instead of continuous.
     </div>
 
     <p>
-      The <kbd>d3.scaleOrdinal()</kbd> helps us create buckets for each
+      The <kbd>d3.scaleBand()</kbd> helps us create buckets for each
       element. In this case, that's one per product.
     </p>
     <p>
-      The domain is the 3 product names. The range is a little different,
-      <kbd>rangeRoundBands</kbd> is a helper function that sets the range, but
-      tells D3 to pick buckets that are whole pixel widths (no fractions).
+      The domain is the 3 product names. The range is a little different.
+      It sets a range, but tells D3 to pick buckets that are 
+      whole pixel widths (no fractions).
     </p>
   </div>
 </div>
