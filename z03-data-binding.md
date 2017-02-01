@@ -289,7 +289,7 @@ var rects = svg.selectAll('rect')
 
 rects.enter().append('rect');
 
-rects.size();
+rects.enter().size();
 // 2 -- first join, adds two new elements
 
 var nextrects = rects
