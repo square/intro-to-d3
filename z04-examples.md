@@ -19,7 +19,7 @@ Some of these examples make use of D3's layout helpers.
 Some layouts convert our original data into descriptions of the shapes we want
 to draw. For example, the pie layout converts numbers into arcs (start and end
 angles for pie slices). This keeps our drawing code simple. Other
-layouts help us group our data so we can draw useful shapes like stacked stacked
+layouts help us group our data so we can draw useful shapes like stacked columns
 or trees.
 
 D3 also provides helpers to make some of the more complex SVG shapes easier to
