@@ -156,7 +156,7 @@ d3.extent(numbers);
 D3 has objects called scales that help map values across coordinate systems.
 There are different kinds of scales (linear, logarithmic, linear for time).
 Scales are configured with a domain and a range, they map from the data to
-the approprate part of the screen (screen space).
+the appropriate part of the screen (screen space).
 
 Here is how we set up the y-scale for the above money example:
 
