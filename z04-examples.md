@@ -36,9 +36,9 @@ First we get our source data:
   <div class="example example-source">
     {% highlight javascript %}
 var sales = [
-  { product: 'Hoodie',  count: 12 },
-  { product: 'Jacket',  count: 7 },
-  { product: 'Snuggie', count: 6 },
+    { product: 'Hoodie',  count: 12 },
+    { product: 'Jacket',  count: 7 },
+    { product: 'Snuggie', count: 6 },
 ];
     {% endhighlight %}
   </div>
@@ -52,29 +52,29 @@ for that:
   <div class="example example-source">
     {% highlight javascript %}
 var pie = d3.pie()
-  .value(function(d) { return d.count })
+  .value(d => d.count)
 
 var slices = pie(sales);
 // the result looks roughly like this:
 [
-  {
-    data: sales[0],
-    endAngle: 3.0159289474462017,
-    startAngle: 0,
-    value: 12
-  },
-  {
-    data: sales[1],
-    startAngle: 3.0159289474462017,
-    endAngle: 4.775220833456486,
-    value: 7
-  },
-  {
-    data: sales[2],
-    startAngle: 4.775220833456486,
-    endAngle: 6.283185307179587,
-    value: 6
-  }
+    {
+        data: sales[0],
+        endAngle: 3.0159289474462017,
+        startAngle: 0,
+        value: 12
+    },
+    {
+        data: sales[1],
+        startAngle: 3.0159289474462017,
+        endAngle: 4.775220833456486,
+        value: 7
+    },
+    {
+        data: sales[2],
+        startAngle: 4.775220833456486,
+        endAngle: 6.283185307179587,
+        value: 6
+    }
 ]
     {% endhighlight %}
   </div>
@@ -89,38 +89,42 @@ to actually drawing, such as the radius size.
   <div class="example example-source">
     {% highlight javascript %}
 var arc = d3.arc()
-  .innerRadius(0)
-  .outerRadius(50);
+    .innerRadius(0)
+    .outerRadius(50);
 
 // helper that returns a color based on an ID
 var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 var svg = d3.select('svg.pie');
 var g = svg.append('g')
-  .attr('transform', 'translate(200, 50)')
+    .attr('transform', 'translate(200, 50)')
 
 g.selectAll('path.slice')
-  .data(slices)
-    .enter()
-      .append('path')
-        .attr('class', 'slice')
-        .attr('d', arc)
-        .attr('fill', function(d) {
-          return color(d.data.product);
-        });
+    .data(slices)
+    .join(
+        enter => {
+            enter.append('path')
+            .attr('class', 'slice')
+            .attr('d', arc)
+            .attr('fill', d => color(d.data.product))
+        }
+    );
 
 // building a legend is as simple as binding
 // more elements to the same data. in this case,
 // <text> tags
 svg.append('g')
-  .attr('class', 'legend')
-    .selectAll('text')
-    .data(slices)
-      .enter()
-        .append('text')
-          .text(function(d) { return '• ' + d.data.product; })
-          .attr('fill', function(d) { return color(d.data.product); })
-          .attr('y', function(d, i) { return 20 * (i + 1); })
+    .attr('class', 'legend')
+        .selectAll('text')
+        .data(slices)
+        .join(
+            enter => {
+                enter.append('text')
+                .text(d => '• ' + d.data.product)
+                .attr('fill', d => color(d.data.product))
+                .attr('y', (d, i) => 20 * (i + 1));
+            }
+        );
     {% endhighlight %}
   </div>
 
@@ -199,9 +203,9 @@ Transformed into a dense array, our data looks like this:
   <div class="example example-source">
     {% highlight javascript %}
 var sales = [
-  { date: "2014-01-01", hoodies: 6, jackets: 2, snuggies: 3 },
-  { date: "2014-01-02", hoodies: 7, jackets: 5, snuggies: 2 },
-  { date: "2014-01-03", hoodies: 8, jackets: 7, snuggies: 3 }
+    { date: "2014-01-01", hoodies: 6, jackets: 2, snuggies: 3 },
+    { date: "2014-01-02", hoodies: 7, jackets: 5, snuggies: 2 },
+    { date: "2014-01-03", hoodies: 8, jackets: 7, snuggies: 3 }
 ];
     {% endhighlight %}
   </div>
@@ -224,7 +228,7 @@ a whole other topic.
   <div class="example example-source">
     {% highlight javascript %}
 var stack = d3.stack()
-  .keys(["hoodies", "jackets", "snuggies"])
+    .keys(["hoodies", "jackets", "snuggies"]);
 
 var stacked = stack(sales);
     {% endhighlight %}
@@ -278,51 +282,48 @@ var width = 200;
 // we need to calculate the maximum y-value
 // across all our layers, so we find the biggest
 // end value
-var maxY = d3.max(stacked, function(d) {
-  return d3.max(d, function(d) {
-    return d[1];
-  });
-});
+var maxY = d3.max(stacked, d => d3.max(d, d => d[1]));
 
 var y = d3.scaleLinear()
-  .range([height, 0])
-  .domain([0, maxY]);
+    .range([height, 0])
+    .domain([0, maxY]);
 
 var x = d3.scaleTime()
-  .range([0, width])
-  .domain(d3.extent(sales, function(d) {
-    return new Date(Date.parse(d.date));
-  }))
-  .nice(4);
+    .range([0, width])
+    .domain(d3.extent(sales, d => new Date(Date.parse(d.date))))
+    .nice(4);
 
 var svg = d3.select('svg.stack');
 var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 // bind a <g> tag for each layer
 var layers = svg.selectAll('g.layer')
-  .data(stacked, function(d) { return d.key; })
-    .enter()
-      .append('g')
-        .attr('class', 'layer')
-        .attr('fill', function(d) { return color(d.key); })
+    .data(stacked, d => d.key)
+    .join(
+        enter => {
+            enter.append('g')
+            .attr('class', 'layer')
+            .attr('fill', d => color(d.key));
+        }
+    );
 
 // bind a <rect> to each value inside the layer
 layers.selectAll('rect')
-  .data(function(d) { return d; })
-  .enter()
-    .append('rect')
-      .attr('x', function(d) { return x(new Date(Date.parse(d.data.date))); })
-      .attr('width', width / 3)
-      .attr('y', function(d) {
-        // remember that SVG is y-down while our graph is y-up!
-        // here, we set the top-left of this bar segment to the
-        // larger value of the pair
-        return y(d[1]);
-      }).attr('height', function(d) {
-        // since we are drawing our bar from the top downwards,
-        // the length of the bar is the distance between our points
-        return y(d[0]) - y(d[1]);
-      });
+    .data(d => d)
+    .join(
+        enter => {
+            enter.append('rect')
+            .attr('x', d => x(new Date(Date.parse(d.data.date))))
+            .attr('width', width / 3)
+                // remember that SVG is y-down while our graph is y-up!
+                // here, we set the top-left of this bar segment to the
+                // larger value of the pair
+            .attr('y', d => y(d[1]))
+                // since we are drawing our bar from the top downwards,
+                // the length of the bar is the distance between our points
+            .attr('height', d => y(d[0]) - y(d[1]));
+        }
+    );
     {% endhighlight %}
   </div>
 
@@ -358,11 +359,14 @@ There are lot of great resources for learning D3 out there:
 3. For more examples of what is possible with D3 check out the
    [D3 examples][d3-examples] by creator of D3, Mike Bostock.
 
+4. The [D3 graph gallery](d3-graph-gallery) is a collection of examples for dozens of different types of charts made with D3. It is maintained by Yan Holtz.
+
 But don't stop there! Google searches are a great way to discover things too.
 Happy visualizing!
 
 [d3-wiki]: https://github.com/mbostock/d3/wiki
 [d3-api-reference]: https://github.com/mbostock/d3/wiki/API-Reference
 [d3-examples]: http://bl.ocks.org/mbostock
+[d3-graph-gallery]: https://www.d3-graph-gallery.com/
 
 <script type="text/javascript" src="{{ "/javascripts/examples.js" | prepend: site.baseurl }}"></script>

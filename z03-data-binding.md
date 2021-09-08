@@ -5,25 +5,21 @@ permalink: /data-binding/
 ---
 
 - [Selections `d3.selectAll`](#selections-d3selectall)
-- [Joins `selection.data()`](#joins-selectiondata)
-- [Adding Elements `selection.enter()`](#adding-elements-selectionenter)
-- [Removing Elements `selection.exit()`](#removing-elements-selectionexit)
+- [Joins `selection.data()` and `selection.join()`](#joins-selectiondata-and-selectionjoin)
+- [Adding Elements](#adding-elements)
+- [Removing Elements](#removing-elements)
 - [Identity and the Key Function](#identity-and-the-key-function)
 - [Transitions `selection.transition()`](#transitions-selectiontransition)
 
-<div class="info">
-  Heads up! Data binding is probably the hardest part of D3 to "get".
-  Personally, it took this being re-explained like 2 or 3 times to really
-  internalize what was going on.
-</div>
+D3 selections are a different way to look at data binding. Essentially, D3 maintains a mapping of data points to DOM elements, keeping track of exactly which data maps to which element. When data points are added, changed, or removed, the associated DOM elements can be programmatically added, updated, or removed correspondingly. This feature is extremely powerful, and allows you to add many different kinds of custom interactivity in your visualizations.
 
-D3 selections are a different way to look at data binding. They're powerful
-because the same selection can be updated for different data later on. Updating
-is the most powerful part of selections.
+<div class="info">
+    Note: The `selection.join` API used in this tutorial is only available to D3 v5 and later. For the older data binding pattern, please refer to previous versions of this tutorial.
+</div>
 
 ## Selections `d3.selectAll`
 
-Ok, so we've referenced `d3.select()` and `d3.selectAll()` a few times already
+We've referenced `d3.select()` and `d3.selectAll()` a few times already
 but now, it's really time to dig in. `d3.select()` will find one element,
 `d3.selectAll` will match all available elements.
 
@@ -36,7 +32,7 @@ d3.select(String selector) -> (d3.selection)
 D3 selections are a group of elements that match a query **or could match a
 query later** (the elements may not have been constructed yet).
 
-## Joins `selection.data()`
+## Joins `selection.data()` and `selection.join()`
 
 Selections are used to map pieces of our data to elements in the DOM. Suppose we
 have some data:
@@ -89,7 +85,7 @@ svg.size();
 // 1 -- one <svg> element exists
 
 var rects = svg.selectAll('rect')
-  .data(sales);
+    .data(sales);
 
 rects.size();
 // 0 -- no <rect> elements exist yet!
@@ -99,7 +95,26 @@ rects.size();
 
 Okay, now we have a selection but still no elements! We have more work to do.
 
-## Adding Elements `selection.enter()`
+The `selection.join()` API allows us to define what happens when we join data with a selection. In other words, we use this API to define how to handle additions, changes, or removals to the data since the last join. 
+
+The `selection.join()` API takes 3 functions as arguments:
+- the first function will be called with a selection containing data points which do not have DOM elements yet
+- the second function will be called with a selection which contains all the data points
+- the third function will be called with a selection which contains data points which have been removed, but for which DOM elements still exist.
+
+The second and third arguments are optional. This can be a bit confusing at first, but don't worry. Continue reading, and I'll explain how all this works through examples. Feel free to reference the [official documentation](https://github.com/d3/d3-selection#selection_join).
+
+<div class="info">
+  In D3 selections, "enter" refers to data points which do not have a corresponding DOM element (data that was added since the last join) and "exit" refers to DOM elements which do not have a corresponding data point (data that was removed since the last join). 
+  <br>
+  <br>
+  The `selection.enter()` and `selection.exit()` method of selections can be used to access these subsets - that was how we handled additions and removals before the `selection.join()` API existed. 
+  <br>
+  <br>
+  Now, the "enter" and "exit" selections are automatically passed to the first and third arguments of `selection.join()` - we just need to provide functions to handle them.
+</div>
+
+## Adding Elements
 
 Again, our goal is to have a rectangle for each data point. We are starting with
 none and we have 4 new data points, so obviously the right thing to do is to
@@ -113,47 +128,33 @@ the next selection, things will be more complex since there will already be
 rects.
 
 The part of a D3 selection that represents these element-less data-points
-is `selection.enter()`;
-
-<div class="example-row-1"> <div class="example">
-    {% highlight javascript %}
-var newRects = rects.enter();
-    {% endhighlight %}
-  </div>
-</div>
-
-So now `newRects` represents these element-less data-points, so we use
-`append` to add new elements. The elements don't add themselves, we have to
+is passed to the first argument in `selection.join`. The elements don't add themselves, we have to
 create the elements that will match the selection ourselves. We use the same
 attribute editing helpers to configure each circle per its data point.
-
 
 <div class="example-row-2">
   <div class="example">
     {% highlight javascript %}
 // recall that scales are functions that map from
 // data space to screen space
-var maxCount = d3.max(sales, function(d, i) {
-  return d.count;
-});
+var maxCount = d3.max(sales, (d, i) => d.count);
 var x = d3.scaleLinear()
-  .range([0, 300])
-  .domain([0, maxCount]);
+    .range([0, 300])
+    .domain([0, maxCount]);
 var y = d3.scaleOrdinal()
-  .rangeRoundBands([0, 75])
-  .domain(sales.map(function(d, i) {
-    return d.product;
-  }));
+    .rangeRoundBands([0, 75])
+    .domain(sales.map((d, i) => d.product));
 
-newRects.append('rect')
-  .attr('x', x(0))
-  .attr('y', function(d, i) {
-    return y(d.product);
-  })
-  .attr('height', y.rangeBand())
-  .attr('width', function(d, i) {
-    return x(d.count);
-  });
+rects.join(
+    // NEW - handle data points w/o rectangles
+    newRects => {
+        newRects.append('rect')
+        .attr('x', x(0))
+        .attr('y', (d, i) => y(d.product))
+        .attr('height', y.rangeBand())
+        .attr('width', (d, i) => x(d.count));
+    },
+);
     {% endhighlight %}
   </div>
 
@@ -200,31 +201,41 @@ So how does it turn out? Let's take a look:
   style of <kbd>(d, i)</kbd> parameters to represent the element and its index.
 </div>
 
-## Removing Elements `selection.exit()`
+## Removing Elements
 
-Where `selection.enter()` selects elements that have added since the last data
-join, `selection.exit()` is the opposite, it applies to elements that have been
+Whereas "enter" selects elements that have added since the last data
+join, "exit" is the opposite, it applies to elements that have been
 removed.
 
 Suppose we drop the first point from our source array, we can find and operate
-on the corresponding element in the DOM via `selection.exit()`.
+on the corresponding element in the DOM via the exit selection.
 
-We can use the `remove()` method to immediately delete matched elements, it's
-the opposite of `append()`.
+We can use the `remove()` method to immediately delete matched elements; it's
+the opposite of `append()`. 
+
+If you only want to delete matched elements, you may omit the argument entirely from `selection.join()` since calling `remove()` is the default behavior.
 
 <div class="example-row-2">
   <div class="example">
     {% highlight javascript %}
+// define new logic for handling joins
+rects.join(
+    newRects => {
+        newRects.append('rect')
+        .attr('x', x(0))
+        .attr('y', (d, i) => y(d.product))
+        .attr('height', y.rangeBand())
+        .attr('width', (d, i) => x(d.count));
+    },
+    rects => {},
+    // NEW - delete elements whose data has been removed
+    rectsToRemove => {
+        rectsToRemove.remove();
+    }
+);
+
 sales.pop(); // drops the last element
-
-var rects = rects.data(sales); // join the data again
-
-var rectsToRemove = rects.exit();
-
-rectsToRemove.size()
-// 1 -- one element is part of the exit selection
-
-rectsToRemove.remove(); // instantly removes
+rects.data(sales); // join the data again
     {% endhighlight %}
   </div>
 
@@ -259,7 +270,7 @@ obj2 == obj3;
   </div>
 </div>
 
-But the example with `selection.exit()` above works! It only removed one element
+But the example above works! It only removed one element
 from the DOM because we only removed one element from the array, and all the
 rest of the objects were the exact same.
 
@@ -287,21 +298,13 @@ var sales2 = [
 ];
 
 var rects = svg.selectAll('rect')
-  .data(sales1, function(d, i) { return d.product; } );
+  .data(sales1, (d, i) => d.product)
+  .join(enter => enter.append("rect"));
 
-rects.enter().append('rect');
+rects.size(); // 2 -- first join adds two new elements
 
-rects.size();
-// 2 -- first join, adds two new elements
-
-var nextrects = rects
-  .data(sales2, function(d, i) { return d.product; });
-
-nextrects.exit().size();
-// 1 -- one element to remove
-nextrects.exit().remove();
-
-nextrects.enter().append('rect'); // adds one element
+// removes 1 element, adds 1 element
+rects.data(sales2, (d, i) => d.product); 
     {% endhighlight %}
   </div>
 </div>
@@ -384,31 +387,25 @@ We can use transitions to demonstrate this update.
   <div class="example">
     {% highlight javascript %}
 function toggle() {
-  sales = (sales == days[0]) ? days[1] : days[0];
-  update();
+    sales = (sales == days[0]) ? days[1] : days[0];
+    update();
 }
 
 function update() {
-  var rects = svg.selectAll('rect')
-    .data(sales, function(d, i) { return d.product });
-
-  // When we enter, we add the DOM element
-  // and set up the things that won't change
-  var enterRects = rects.enter()
-    .append('rect')
-      .attr('x', x(0))
-      .attr('y', function(d, i) {
-        return y(d.product);
-      })
-      .attr('height', y.bandwidth())
-
-  // "rects" represents the update selection, we need to
-  // manually merge it with the enter selection to update
-  // all rects at the same time
-  rects.merge(enterRects)
-    .attr('width', function(d, i) {
-      return x(d.count);
-    });
+    svg.selectAll('rect')
+    .data(sales, (d, i) => d.product)
+    .join(
+        enter => {
+            enter.append('rect')
+            .attr('x', x(0))
+            .attr('y', (d, i) => y(d.product))
+            .attr('height', y.bandwidth())
+            .attr('width', (d, i) => x(d.count));
+        },
+        update => {
+            update.attr('width', (d, i) => x(d.count));
+        },
+    );
 };
     {% endhighlight %}
   </div>
@@ -433,33 +430,28 @@ are pretty nice.
   <div class="example">
     {% highlight javascript %}
 function toggle() {
-  sales = (sales == days[0]) ? days[1] : days[0];
-  update();
+    sales = (sales == days[0]) ? days[1] : days[0];
+    update();
 }
 
 function update() {
-  var rects = svg.selectAll('rect')
-    .data(sales, function(d, i) { return d.product });
-
-  var enterRects = rects.enter()
-    .append('rect')
-      .attr('x', x(0))
-      .attr('y', function(d, i) {
-        return y(d.product);
-      })
-      .attr('height', y.bandwidth())
-      .attr('width', function(d, i) {
-        return x(d.count);
-      });
-
-  rects.merge(enterRects)
-    .transition() // NEW
-    .duration(1000) // Also NEW
-      .attr('width', function(d, i) {
-        return x(d.count);
-      });
+    svg.selectAll('rect')
+    .data(sales, (d, i) => d.product)
+    .join(
+        enter => {
+            enter.append('rect')
+            .attr('x', x(0))
+            .attr('y', (d, i) => y(d.product))
+            .attr('height', y.bandwidth())
+            .attr('width', (d, i) => x(d.count));
+        },
+        update => {
+            // NEW!
+            update.transition().duration(1000)
+            .attr('width', (d, i) => x(d.count));
+        },
+    );
 };
-
     {% endhighlight %}
   </div>
 

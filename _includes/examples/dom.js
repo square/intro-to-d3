@@ -1,6 +1,6 @@
 // DOM API
 var clickMe = document.getElementById('click-me');
-clickMe.onclick = function() {
+clickMe.onclick = () => {
   if (this.style.backgroundColor) {
     this.style.backgroundColor = '';
   } else {
@@ -11,9 +11,9 @@ clickMe.onclick = function() {
 // D3 Selection API. Note: it attaches the
 // callbacks to each element in the selection
 d3.selectAll('.hover-me')
-  .on('mouseover', function() {
+  .on('mouseover', () => {
     this.style.backgroundColor = 'yellow';
   })
-  .on('mouseleave', function() {
+  .on('mouseleave', () => {
     this.style.backgroundColor = '';
   });

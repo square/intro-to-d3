@@ -1,122 +1,108 @@
-(function() {
-  /* Simple transition examples */
-  var days = [],
-      maxCount = 0;
+(() => {
+    /* Simple transition examples */
+    var days = [],
+        maxCount = 0;
 
-  d3.selectAll('.ex-2 .example-source table').each(function() {
-    var table = d3.select(this),
-        data = [];
+    d3.selectAll('.ex-2 .example-source table').each(function () {
+        var table = d3.select(this),
+            data = [];
 
-    table.selectAll('tbody tr').each(function() {
-      var row = d3.select(this),
-          product = null,
-          count = null;
+        table.selectAll('tbody tr').each(function () {
+            var row = d3.select(this),
+                product = null,
+                count = null;
 
-      row.selectAll('td').each(function(d, i) {
-        var td = d3.select(this);
-        if (i == 0) {
-          product = td.text();
-        } else {
-          count = parseInt(td.text());
-          maxCount = Math.max(count, maxCount);
-        }
-      });
+            row.selectAll('td').each(function (d, i) {
+                var td = d3.select(this);
+                if (i == 0) {
+                    product = td.text();
+                } else {
+                    count = parseInt(td.text());
+                    maxCount = Math.max(count, maxCount);
+                }
+            });
 
-      data.push({
-        product: product,
-        count: count
-      });
-    })
+            data.push({
+                product: product,
+                count: count
+            });
+        })
 
-    days.push(data);
-  });
+        days.push(data);
+    });
 
-  var sales = days[0];
-
-  var width = 300,
-      height = 75;
-
-  var x = d3.scaleLinear()
-    .range([0, 300])
-    .domain([0, maxCount]);
-  var y = d3.scaleBand()
-    .range([0, height])
-    .domain(sales.map(function(d, i) {
-      return d.product;
-    }));
-
-  (function() {
-    /* Plain example, jump transition */
     var sales = days[0];
 
-    var svg = d3.select('.ex-2 .example-result svg')
+    var width = 300,
+        height = 75;
 
-    d3.select('.ex-2 .toggle').on('click', function() {
-      sales = (sales == days[0]) ? days[1] : days[0];
-      update();
-    })
+    var x = d3.scaleLinear()
+        .range([0, 300])
+        .domain([0, maxCount]);
+    var y = d3.scaleBand()
+        .range([0, height])
+        .domain(sales.map((d, i) => d.product));
 
-    function update() {
-      var rects = svg.selectAll('rect')
-        .data(sales, function(d, i) { return d.product });
+    (() => {
+        /* Plain example, jump transition */
+        var sales = days[0];
 
-      // When we enter, we add the DOM element
-      // and set up the things that won't change
-      var enterRects = rects.enter()
-        .append('rect')
-          .attr('x', x(0))
-          .attr('y', function(d, i) {
-            return y(d.product);
-          })
-          .attr('height', y.bandwidth())
+        var svg = d3.select('.ex-2 .example-result svg')
 
-      // "rects" represents the update selection, we need to
-      // manually merge it with the enter selection to update
-      // all rects at the same time
-      rects.merge(enterRects)
-        .attr('width', function(d, i) {
-          return x(d.count);
-        });
-    };
+        d3.select('.ex-2 .toggle').on('click', () => {
+            sales = (sales == days[0]) ? days[1] : days[0];
+            update();
+        })
 
-    update();
-  })();
+        function update() {
+            svg.selectAll('rect')
+                .data(sales, (d, i) => d.product)
+                .join(
+                    enter => {
+                        enter.append('rect')
+                        .attr('x', x(0))
+                        .attr('y', (d, i) => y(d.product))
+                        .attr('height', y.bandwidth())
+                        .attr('width', (d, i) => x(d.count));
+                    },
+                    update => {
+                        update.attr('width', (d, i) => x(d.count));
+                    },
+                );
+        };
 
-  (function() {
-    /* Fancy example, smooth transition */
-    var sales = days[0];
+        update();
+    })();
 
-    var svg = d3.select('.ex-3 .example-result svg');
+    (() => {
+        /* Fancy example, smooth transition */
+        var sales = days[0];
 
-    d3.select('.ex-3 .toggle').on('click', function() {
-      sales = (sales == days[0]) ? days[1] : days[0];
-      update();
-    })
+        var svg = d3.select('.ex-3 .example-result svg');
 
-    function update() {
-      var rects = svg.selectAll('rect')
-        .data(sales, function(d, i) { return d.product });
+        d3.select('.ex-3 .toggle').on('click', () => {
+            sales = (sales == days[0]) ? days[1] : days[0];
+            update();
+        })
 
-      // When we enter, we add the DOM element
-      // and set up the things that won't change
-      var enterRects = rects.enter()
-        .append('rect')
-          .attr('x', x(0))
-          .attr('y', function(d, i) {
-            return y(d.product);
-          })
-          .attr('height', y.bandwidth())
-          .attr('width', function(d, i) {
-            return x(d.count);
-          });
+        function update() {
+            svg.selectAll('rect')
+                .data(sales, (d, i) => d.product)
+                .join(
+                    enter => {
+                        enter.append('rect')
+                        .attr('x', x(0))
+                        .attr('y', (d, i) => y(d.product))
+                        .attr('height', y.bandwidth())
+                        .attr('width', (d, i) => x(d.count));
+                    },
+                    update => {
+                        update.transition().duration(1000)
+                        .attr('width', (d, i) => x(d.count));
+                    },
+                );
+        };
 
-      rects.merge(enterRects).transition()
-        .duration(1000)
-          .attr('width', function(d, i) {
-            return x(d.count);
-          });
-    };
-
-    update();
-  })();
+        update();
+    })();
 })();
