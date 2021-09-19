@@ -25,11 +25,10 @@ D3 and gain a high-level understanding of this useful tool.
 
 ### Notes
 
-The recent version of d3.js, v4, has some big breaks in the API from the
-previous version (see all the details of the [v3-to-v4 transition][v3-v4] in the
-D3 wiki). Since we expect this to be the future, and that people coming to learn
-d3 would want to be up to date from the beginning, we have updated this tutorial
-to work with the v4 version. We tagged the [v3 version][archive-v3] for
+Major version updates in D3 sometimes come with breaking API changes. We have updated this tutorial
+to work with the D3 v5-v7. 
+
+We tagged the [v3 version][archive-v3] and [v4 version][archive-v4] for
 posterity.
 
 <a href="{{ "/web-standards/" | prepend: site.baseurl }}" class="giant-button">
@@ -37,5 +36,5 @@ posterity.
 </a>
 
 [tweet]: https://twitter.com/andy_matuschak/status/365547794129358849
-[v3-v4]: https://github.com/d3/d3/blob/master/CHANGES.md
 [archive-v3]: https://github.com/square/intro-to-d3/releases/tag/archive-v3
+[archive-v4]: https://github.com/square/intro-to-d3/releases/tag/archive-v4

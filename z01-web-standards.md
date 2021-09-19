@@ -184,8 +184,8 @@ on the styling.
 
 <div class="example-row-2">
   <div class="example">
-    {% highlight html
-      %}{% include examples/svg2.svg %}
+    {% highlight html %}
+    {% include examples/svg2.svg %}
     {% endhighlight %}
   </div>
 

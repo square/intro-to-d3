@@ -142,7 +142,7 @@ respectively.
 <div class="example-row-1">
   <div class="example">
     {% highlight javascript %}
-d3.max(data, function(d, i) { return d.amount });
+d3.max(data, (d, i) => d.amount);
 // 80
 
 d3.extent(numbers);
@@ -175,7 +175,7 @@ Or if we wanted to take advantage of the helper methods above:
 <div class="example-row-1">
   <div class="example">
     {% highlight javascript %}
-y.domain(d3.extent(data, function(d) { return d.amount }));
+y.domain(d3.extent(data, d => d.amount));
     {% endhighlight %}
   </div>
 </div>
